@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from "react-hook-form";
+import { AuthContext } from '../../../Providers/AuthProvider';
 
 const Login = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { signIn, googleLogin } = useContext(AuthContext)
     const onSubmit = data => {
         console.log(data)
     };
