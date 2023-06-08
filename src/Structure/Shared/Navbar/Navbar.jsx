@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { SlLocationPin, SlScreenSmartphone, SlEnvolope } from "react-icons/sl";
 import { FaFacebookF, FaTwitter, FaSkype, FaSearch } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
+import { AuthContext } from '../../../Providers/AuthProvider';
 
 
 const Navbar = () => {
+    const { user, loading, logOut } = useContext(AuthContext);
+    const handleLogOut = () => {
+        logOut()
+            .then()
+            .catch()
+    }
+    console.log(user);
     const navItem = <div className='flex items-center gap-8 font-semibold'>
         <Link to={"/"}>HOME</Link>
         <Link to={"/instructors"}>INSTRUCTORS</Link>
@@ -39,9 +47,14 @@ const Navbar = () => {
                         navItem
                     }
                 </div>
-                <div>
-                    <button className='bg-[#1BABAF] px-7 py-2 font-semibold rounded-3xl'><Link to='/login'>Login</Link></button>
-                </div>
+                {
+                    user ?
+                        <div className='flex items-center gap-7'>
+                            <img className='rounded-full w-12' src={user.photoURL} alt="" />
+                            <button onClick={handleLogOut} className='bg-[#1BABAF] px-7 py-2 font-semibold rounded-3xl'><Link>Logout</Link></button>
+                        </div>
+                        : <div><button className='bg-[#1BABAF] px-7 py-2 font-semibold rounded-3xl'><Link to='/login'>Login</Link></button></div>
+                }
             </nav>
         </div>
     );
