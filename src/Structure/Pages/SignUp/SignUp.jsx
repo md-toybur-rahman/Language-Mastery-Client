@@ -5,19 +5,39 @@ import { GrFormViewHide, GrFormView } from "react-icons/gr";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
 
+const image_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD_TOKEN
 
 const SignUp = () => {
-    const { googleLogin, createUser } = useContext(AuthContext);
+    const { googleLogin, createUser, updateUserProfile, signIn } = useContext(AuthContext);
+    const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const [type, setType] = useState('password');
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => {
-        createUser(data.email, data.password)
-            .then((result) => {
-                console.log(result);
+    const onSubmit = async data => {
+        const formData = new FormData();
+        formData.append('image', data.photo[0])
+        await fetch(image_hosting_url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    const imageURL = result.data.display_url;
+                    createUser(data.email, data.password)
+                        .then((result) => {
+                            console.log(result);
+                            updateUserProfile(data.name, imageURL)
+                        })
+
+                }
+            })
+        signIn(data.email, data.password)
+            .then(() => {
                 navigate('/')
             })
+            .catch()
     };
     const handleGoogle = () => {
         googleLogin()
@@ -80,16 +100,11 @@ const SignUp = () => {
                             <label className="label">
                                 <span className="label-text">Confirm Password</span>
                             </label>
-                            <input type={type} placeholder="Confirm Password" {...register("confirm-password", { required: true })} className='input input-bordered' />
-                            <div onClick={passwordToggle} className='text-2xl absolute right-2 bottom-3'>
-                                {
-                                    show ? <GrFormView></GrFormView> : <GrFormViewHide></GrFormViewHide>
-                                }
-                            </div>
+                            <input type="password" placeholder="Confirm Password" {...register("confirm-password", { required: true })} className='input input-bordered' />
                             {errors.password && <span className="text-red-600 mt-2">This field is required</span>}
                         </div>
                         <div className="form-control mt-6">
-                            <input type='submit' value={"Login"} className="btn bg-[#1BABAF] hover:bg-[#E5B14C]" />
+                            <input type='submit' value={"Sign Up"} className="btn bg-[#1BABAF] hover:bg-[#E5B14C]" />
                         </div>
                     </form>
                     <p className='ml-10'><small>Already have an account ? <Link className='text-[#1BABAF]' to="/login">Login</Link></small></p>

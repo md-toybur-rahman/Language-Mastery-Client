@@ -13,7 +13,9 @@ const Login = () => {
     const navigate = useNavigate();
     const onSubmit = data => {
         signIn(data.email, data.password)
-            .then()
+            .then(() => {
+                navigate('/')
+            })
             .catch()
     };
     const handleGoogle = () => {
@@ -26,10 +28,10 @@ const Login = () => {
     }
     const passwordToggle = () => {
         setShow(!show);
-        if(type == 'password') {
+        if (type == 'password') {
             setType('text');
         }
-        else if(type == 'text') {
+        else if (type == 'text') {
             setType('password')
         }
     }
