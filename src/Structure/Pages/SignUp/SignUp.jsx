@@ -13,8 +13,16 @@ const SignUp = () => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const [type, setType] = useState('password');
+    const [error, setError] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = async data => {
+        if(data.password !== data.confirm_password) {
+            setError(true)
+            return;
+        }
+        else{
+            setError(false)
+        }
         const formData = new FormData();
         formData.append('image', data.photo[0])
         await fetch(image_hosting_url, {
@@ -88,20 +96,27 @@ const SignUp = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type={type} placeholder="Password" {...register("password", { required: true })} className='input input-bordered' />
-                            <div onClick={passwordToggle} className='text-2xl absolute right-2 bottom-3'>
+                            <input type={type} placeholder="Password" {...register("password", {
+                                required: true,
+                                minLength: 6,
+                                pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])/
+                            })} className='input input-bordered' />
+                            <div onClick={passwordToggle} className='text-2xl absolute right-2 top-12'>
                                 {
                                     show ? <GrFormView></GrFormView> : <GrFormViewHide></GrFormViewHide>
                                 }
                             </div>
-                            {errors.password && <span className="text-red-600 mt-2">This field is required</span>}
+                            {errors.password?.type === 'required' && <span className="text-red-600 mt-2">This field is required</span>}
+                            {errors.password?.type === 'minLength' && <span className="text-red-600 mt-2">Password must be contain 6 characters</span>}
+                            {errors.password?.type === 'pattern' && <span className="text-red-600 mt-2">Password must one uppercase and one special characters</span>}
                         </div>
                         <div className="form-control relative">
                             <label className="label">
                                 <span className="label-text">Confirm Password</span>
                             </label>
-                            <input type="password" placeholder="Confirm Password" {...register("confirm-password", { required: true })} className='input input-bordered' />
-                            {errors.password && <span className="text-red-600 mt-2">This field is required</span>}
+                            <input type="password" placeholder="Confirm Password" {...register("confirm_password", { required: true })} className='input input-bordered' />
+                            {errors.confirm_password && <span className="text-red-600 mt-2">This field is required</span>}
+                            {error? <span className="text-red-600 mt-2">Password doesn't match</span> : ''}
                         </div>
                         <div className="form-control mt-6">
                             <input type='submit' value={"Sign Up"} className="btn bg-[#1BABAF] hover:bg-[#E5B14C]" />
