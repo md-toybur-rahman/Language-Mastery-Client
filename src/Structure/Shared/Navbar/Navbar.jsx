@@ -6,15 +6,15 @@ import { GrLinkedinOption } from "react-icons/gr";
 
 
 const Navbar = () => {
-    const navItem = <div className='flex items-center gap-5 font-semibold'>
-        <Link>HOME</Link>
-        <Link>INSTRUCTORS</Link>
-        <Link>CLASSES</Link>
+    const navItem = <div className='flex items-center gap-8 font-semibold'>
+        <Link to={"/"}>HOME</Link>
+        <Link to={"/instructors"}>INSTRUCTORS</Link>
+        <Link to={"/classes"}>CLASSES</Link>
         <Link>DASHBOARD</Link>
         <FaSearch></FaSearch>
     </div>
     return (
-        // TODO: responsive
+        // TODO: responsive and Active NavLink
         <div>
             <div className='flex items-center justify-between border-b-2 py-2'>
                 <div className='flex items-center gap-3'>
