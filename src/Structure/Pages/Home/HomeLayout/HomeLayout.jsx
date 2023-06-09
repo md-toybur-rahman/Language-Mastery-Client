@@ -1,5 +1,6 @@
 
 import Banner from '../Banner/Banner';
+import ClassesSection from '../ClassesSection/ClassesSection';
 
 const HomeLayout = () => {
     return (
@@ -7,6 +8,7 @@ const HomeLayout = () => {
             <div className='text-center'>
                 <Banner></Banner>
             </div>
+            <ClassesSection></ClassesSection>
         </div>
     );
 };

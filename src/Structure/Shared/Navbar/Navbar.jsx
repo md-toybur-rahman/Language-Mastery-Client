@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { SlLocationPin, SlScreenSmartphone, SlEnvolope } from "react-icons/sl";
 import { FaFacebookF, FaTwitter, FaSkype, FaSearch } from "react-icons/fa";
