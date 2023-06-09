@@ -19,6 +19,7 @@ const Navbar = () => {
         <Link to={"/instructors"}>INSTRUCTORS</Link>
         <Link to={"/classes"}>CLASSES</Link>
         <Link>DASHBOARD</Link>
+        <Link to={"/data"}>DATA ENTRY</Link>
         <FaSearch></FaSearch>
     </div>
     return (

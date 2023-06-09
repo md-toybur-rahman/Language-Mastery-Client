@@ -6,6 +6,7 @@ import Main from '../Layout/Main';
 import HomeLayout from '../Pages/Home/HomeLayout/HomeLayout';
 import Login from '../Pages/Login/Login';
 import SignUp from '../Pages/SignUp/SignUp';
+import DataEntry from '../Pages/DataEntry/DataEntry';
 
 
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
         {
           path: '/signUp',
           element: <SignUp></SignUp>
+        },
+        {
+          path: '/data',
+          element: <DataEntry></DataEntry>
         }
       ]
     },

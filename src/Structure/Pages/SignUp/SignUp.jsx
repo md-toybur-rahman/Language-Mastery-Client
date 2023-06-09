@@ -116,7 +116,7 @@ const SignUp = () => {
                             </label>
                             <input type="password" placeholder="Confirm Password" {...register("confirm_password", { required: true })} className='input input-bordered' />
                             {errors.confirm_password && <span className="text-red-600 mt-2">This field is required</span>}
-                            {error? <span className="text-red-600 mt-2">Password doesn't match</span> : ''}
+                            {error? <span className="text-red-600 mt-2">Password does not match</span> : ''}
                         </div>
                         <div className="form-control mt-6">
                             <input type='submit' value={"Sign Up"} className="btn bg-[#1BABAF] hover:bg-[#E5B14C]" />
