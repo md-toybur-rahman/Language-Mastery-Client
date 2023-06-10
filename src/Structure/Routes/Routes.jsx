@@ -7,6 +7,9 @@ import HomeLayout from '../Pages/Home/HomeLayout/HomeLayout';
 import Login from '../Pages/Login/Login';
 import SignUp from '../Pages/SignUp/SignUp';
 import DataEntry from '../Pages/DataEntry/DataEntry';
+import Instructors from "../Pages/Instructors/Instructors";
+import Classes from "../Pages/Classes/Classes";
+import Dashboard from "../Layout/Dashboard";
 
 
 
@@ -21,11 +24,11 @@ const router = createBrowserRouter([
         },
         {
           path: '/instructors',
-          element: <h1>This is Instructors Page</h1>
+          element: <Instructors></Instructors>
         },
         {
           path: '/classes',
-          element: <h1>This is Classes Page</h1>
+          element: <Classes></Classes>
         },
         {
           path: '/login',
@@ -38,9 +41,13 @@ const router = createBrowserRouter([
         {
           path: '/data',
           element: <DataEntry></DataEntry>
-        }
+        },
       ]
     },
+    {
+      path: '/dashboard',
+      element: <Dashboard></Dashboard>
+    }
   ]);
 
 export default router;

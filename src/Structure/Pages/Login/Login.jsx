@@ -22,6 +22,17 @@ const Login = () => {
         googleLogin()
             .then((result) => {
                 console.log(result);
+                if (result._tokenResponse.isNewUser) {
+                    const { displayName, email } = result.user;
+                    const user = { name: displayName, email, type: 'student' }
+                    fetch('http://localhost:5000/users', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(user)
+                    })
+                }
                 navigate('/')
             })
             .catch()

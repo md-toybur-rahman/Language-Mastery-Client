@@ -16,15 +16,16 @@ const SignUp = () => {
     const [error, setError] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = async data => {
-        if(data.password !== data.confirm_password) {
+        const {password, confirm_password, name, email, photo } = data;
+        if (password !== confirm_password) {
             setError(true)
             return;
         }
-        else{
+        else {
             setError(false)
         }
         const formData = new FormData();
-        formData.append('image', data.photo[0])
+        formData.append('image', photo[0])
         await fetch(image_hosting_url, {
             method: 'POST',
             body: formData
@@ -33,24 +34,45 @@ const SignUp = () => {
             .then(result => {
                 if (result.success) {
                     const imageURL = result.data.display_url;
-                    createUser(data.email, data.password)
-                        .then((result) => {
-                            console.log(result);
-                            updateUserProfile(data.name, imageURL)
+                    createUser(email, password)
+                        .then(() => {
+                            updateUserProfile(name, imageURL)
+                                .then(() => {
+                                    const user = { name, email, type: 'student' }
+                                    fetch('http://localhost:5000/users', {
+                                        method: 'POST',
+                                        headers: {
+                                            'content-type': 'application/json'
+                                        },
+                                        body: JSON.stringify(user)
+                                    })
+                                    signIn(email, password)
+                                        .then(() => {
+                                            navigate('/')
+                                        })
+                                        .catch()
+                                })
                         })
 
                 }
             })
-        signIn(data.email, data.password)
-            .then(() => {
-                navigate('/')
-            })
-            .catch()
+
     };
     const handleGoogle = () => {
         googleLogin()
             .then((result) => {
                 console.log(result);
+                if(result._tokenResponse.isNewUser) {
+                    const { displayName , email } = result.user;
+                    const user = { name: displayName, email, type: 'student' }
+                    fetch('http://localhost:5000/users', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(user)
+                    })         
+                }
                 navigate('/')
             })
             .catch()
@@ -116,7 +138,7 @@ const SignUp = () => {
                             </label>
                             <input type="password" placeholder="Confirm Password" {...register("confirm_password", { required: true })} className='input input-bordered' />
                             {errors.confirm_password && <span className="text-red-600 mt-2">This field is required</span>}
-                            {error? <span className="text-red-600 mt-2">Password does not match</span> : ''}
+                            {error ? <span className="text-red-600 mt-2">Password does not match</span> : ''}
                         </div>
                         <div className="form-control mt-6">
                             <input type='submit' value={"Sign Up"} className="btn bg-[#1BABAF] hover:bg-[#E5B14C]" />

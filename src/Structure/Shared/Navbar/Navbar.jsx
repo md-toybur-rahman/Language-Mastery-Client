@@ -18,7 +18,7 @@ const Navbar = () => {
         <Link to={"/"}>HOME</Link>
         <Link to={"/instructors"}>INSTRUCTORS</Link>
         <Link to={"/classes"}>CLASSES</Link>
-        <Link>DASHBOARD</Link>
+        <Link to={"/dashboard"}>DASHBOARD</Link>
         <Link to={"/data"}>DATA ENTRY</Link>
         <FaSearch></FaSearch>
     </div>
@@ -40,7 +40,8 @@ const Navbar = () => {
             </div>
             {/* TODO: nav position fixed in top */}
             <nav className='flex items-center justify-between py-5'>
-                <div>
+                <div className='flex items-center gap-3'>
+                    <img className='w-[40px]' src="https://i.ibb.co/g62PGPf/New-Project.png" alt="" />
                     <h1 className='text-3xl'><span className='font-bold'>Language</span> Mastery</h1>
                 </div>
                 <div>

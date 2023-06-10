@@ -1,9 +1,10 @@
-// import React from 'react';
 
 import { useEffect, useState } from "react";
-import InstructorCard from "./InstructorCard";
+import InstructorCard from "../Home/InstructorSection/InstructorCard";
 
-const InstructorSection = () => {
+
+
+const Instructors = () => {
     const [loadedInstructors, setLoadedInstructors] = useState([])
     useEffect(() => {
         fetch('http://localhost:5000/instructors')
@@ -15,12 +16,12 @@ const InstructorSection = () => {
         return b.number_of_students - a.number_of_students;
     })
     useEffect(() => {
-        setInstructors(sortedInstructors.slice(0, 6));
+        setInstructors(sortedInstructors);
     }, [sortedInstructors])
     return (
-        <div className='mt-40'>
+        <div className='mt-10'>
             <div>
-                <h1 className='text-4xl font-bold text-center mb-16'>POPULAR INSTRUCTORS</h1>
+                <h1 className='text-4xl font-bold text-center mb-16'>INSTRUCTORS</h1>
                 {/* TODO: create bottom line */}
             </div>
             <div className="flex justify-center">
@@ -34,4 +35,4 @@ const InstructorSection = () => {
     );
 };
 
-export default InstructorSection;
+export default Instructors;
