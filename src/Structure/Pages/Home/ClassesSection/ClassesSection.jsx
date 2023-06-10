@@ -16,9 +16,9 @@ const ClassesSection = () => {
         setClasses(sortedClasses.slice(0, 6));
     }, [sortedClasses])
     return (
-        <div className='mt-20'>
+        <div className='mt-40'>
             <div>
-                <h1 className='text-4xl font-bold text-center mb-20'>OUR CLASSES</h1>
+                <h1 className='text-4xl font-bold text-center mb-16'>POPULAR CLASSES</h1>
                 {/* TODO: create bottom line */}
             </div>
             <div className='grid grid-cols-1 gap-10 md:grid-cols-3'>
