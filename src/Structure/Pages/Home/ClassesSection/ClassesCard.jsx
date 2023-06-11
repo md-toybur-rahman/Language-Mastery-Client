@@ -1,16 +1,30 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import useCart from "../../../../hooks/useCart";
+import Swal from "sweetalert2";
 
 
 const ClassesCard = ({ singleClass }) => {
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const cart = useCart();
     const { language_name, country_name, instructor_name, total_student, available_seats, photo, price } = singleClass;
     const handleAdmit = (singleClass) => {
-        const {language_name, country_name, instructor_name,available_seats, price, photo,} = singleClass;
-        const cartItem = {language_name, country_name, instructor_name, available_seats, price, photo, user_email: user.email};
-        if(user) {
+        if (!user) {
+            navigate('/login')
+        }
+        const { language_name, country_name, instructor_name, available_seats, price, photo, } = singleClass;
+        const cartItem = { language_name, country_name, instructor_name, available_seats, price, photo, user_email: user.email };
+        const isExist = cart.find(item => item.language_name === language_name);
+        if (isExist) {
+            Swal.fire(
+                'OPS!',
+                'This item already in Cart',
+                'question'
+            )
+        }
+        if (user && !isExist) {
             fetch('http://localhost:5000/cart', {
                 method: 'POST',
                 headers: {
@@ -18,9 +32,16 @@ const ClassesCard = ({ singleClass }) => {
                 },
                 body: JSON.stringify(cartItem),
             })
-        }
-        else{
-            navigate('/login')
+                .then(res => res.json())
+                .then(() => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Item Added Successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                })
         }
     }
     return (
@@ -37,7 +58,7 @@ const ClassesCard = ({ singleClass }) => {
                     <p><span className="font-semibold">Available Seats:</span>  {available_seats}</p>
                     <p><span className="font-semibold">Price:</span>  {price} Tk</p>
                     <div className="card-actions justify-start mt-5">
-                        <button onClick={() => {handleAdmit(singleClass)}} className="btn bg-[#1BABAF] text-white hover:text-black">Admit Now</button>
+                        <button onClick={() => { handleAdmit(singleClass) }} className="btn bg-[#1BABAF] text-white hover:text-black">Admit Now</button>
                     </div>
                 </div>
             </div>

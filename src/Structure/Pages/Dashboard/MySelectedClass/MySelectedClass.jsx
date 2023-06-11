@@ -1,10 +1,45 @@
+
+import Swal from "sweetalert2";
 import useCart from "../../../../hooks/useCart";
 
 
 const MySelectedClass = () => {
-    const cart = useCart();
+    const [cart, loading] = useCart()
+    if (loading) {
+        return <div className='h-[100vh] flex items-center justify-center'>
+            <div className='flex gap-5'>
+                <progress className='progress w-40 h-5'></progress>
+                <progress className='progress w-40 h-5'></progress>
+            </div>
+        </div>
+    }
     const handleDelete = (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/cart/${id}`, {
+                    method: "DELETE"
+                })
+                    .then(res => res.json())
+                    .then(() => {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                    })
+            }
+        })
         console.log(id);
+
+
     }
     return (
         <div className="mt-10">
@@ -24,38 +59,38 @@ const MySelectedClass = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {
-                        cart.map((myClass, index) => <tr key={myClass._id}>
-                            <th>
-                                {index + 1}
-                            </th>
-                            <td>
-                                <div className="flex items-center space-x-3">
-                                    <div>
-                                        <div className="rounded-md w-16">
-                                            <img src={myClass.photo} alt="Avatar Tailwind CSS Component" />
+                        {
+                            cart.map((myClass, index) => <tr key={myClass._id}>
+                                <th>
+                                    {index + 1}
+                                </th>
+                                <td>
+                                    <div className="flex items-center space-x-3">
+                                        <div>
+                                            <div className="rounded-md w-16">
+                                                <img src={myClass.photo} alt="Avatar Tailwind CSS Component" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className="font-bold">{myClass.language_name}</div>
+                                            <div className="text-sm opacity-50">{myClass.country_name}</div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div className="font-bold">{myClass.language_name}</div>
-                                        <div className="text-sm opacity-50">{myClass.country_name}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                {myClass.instructor_name}
-                            </td>
-                            <td>
-                                {myClass.price} Tk
-                            </td>
-                            <td>{myClass.available_seats}</td>
-                            <th className="text-center">
-                                <button onClick={() => {handleDelete(myClass._id)}} className="btn bg-[#1BABAF] btn-xs mr-5">Delete</button>
-                                <button className="btn bg-[#1BABAF] btn-xs">Payment</button>
-                            </th>
-                        </tr>)
-                    }
-                        
+                                </td>
+                                <td>
+                                    {myClass.instructor_name}
+                                </td>
+                                <td>
+                                    {myClass.price} Tk
+                                </td>
+                                <td>{myClass.available_seats}</td>
+                                <th className="text-center">
+                                    <button onClick={() => { handleDelete(myClass._id) }} className="btn bg-[#1BABAF] btn-xs mr-5">Delete</button>
+                                    <button className="btn bg-[#1BABAF] btn-xs">Payment</button>
+                                </th>
+                            </tr>)
+                        }
+
                     </tbody>
                 </table>
             </div>

@@ -14,7 +14,7 @@ const InstructorCard = ({ instructor }) => {
                     <p><span className="font-semibold">Class Name:</span> {language_name} ({country_name})</p>
                     <p><span className="font-semibold">Number Of Student:</span> {number_of_students}</p>
                     <div className="card-actions justify-start mt-5">
-                        <button className="btn bg-[#1BABAF] text-white hover:text-black">View Details</button>
+                        {/* <button className="btn bg-[#1BABAF] text-white hover:text-black">View Details</button> */}
                     </div>
                 </div>
             </div>

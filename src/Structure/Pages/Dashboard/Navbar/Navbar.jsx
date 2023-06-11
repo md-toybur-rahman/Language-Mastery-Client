@@ -20,7 +20,7 @@ const Navbar = () => {
     const navItem = <div className='flex items-center gap-8 font-semibold'>
         <Link to="/">HOME</Link>
         <Link className='flex items-center' to="/dashboard">MY SELECTED CLASSES <span className='text-[#1BABAF] text-lg'> +{cart.length}</span></Link>
-        <Link to="/classes">MY ENROLLED CLASSES</Link>
+        <Link to="payment">MY ENROLLED CLASSES</Link>
         <FaSearch></FaSearch>
     </div>
     return (
