@@ -1,15 +1,16 @@
+
 import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { SlLocationPin, SlScreenSmartphone, SlEnvolope } from "react-icons/sl";
 import { FaFacebookF, FaTwitter, FaSkype, FaSearch } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
-import { AuthContext } from '../../../Providers/AuthProvider';
-import useCart from '../../../hooks/useCart';
+import { AuthContext } from '../../../../Providers/AuthProvider';
+import useCart from '../../../../hooks/useCart';
 
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
-    const cart = useCart();
+    const cart = useCart()
     const handleLogOut = () => {
         logOut()
             .then()
@@ -18,10 +19,8 @@ const Navbar = () => {
     console.log(user);
     const navItem = <div className='flex items-center gap-8 font-semibold'>
         <Link to="/">HOME</Link>
-        <Link to="/instructors">INSTRUCTORS</Link>
-        <Link to="/classes">CLASSES</Link>
-        <Link className='flex items-center' to="/dashboard">DASHBOARD <span className='text-[#1BABAF] text-lg'> +{cart.length}</span></Link>
-        <Link to="/data">DATA ENTRY</Link>
+        <Link className='flex items-center' to="/dashboard">MY SELECTED CLASSES <span className='text-[#1BABAF] text-lg'> +{cart.length}</span></Link>
+        <Link to="/classes">MY ENROLLED CLASSES</Link>
         <FaSearch></FaSearch>
     </div>
     return (

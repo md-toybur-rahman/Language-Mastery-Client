@@ -10,6 +10,7 @@ import DataEntry from '../Pages/DataEntry/DataEntry';
 import Instructors from "../Pages/Instructors/Instructors";
 import Classes from "../Pages/Classes/Classes";
 import Dashboard from "../Layout/Dashboard";
+import DashboardLayout from "../Pages/Dashboard/DashboardLayout/DashboardLayout";
 
 
 
@@ -46,8 +47,14 @@ const router = createBrowserRouter([
     },
     {
       path: '/dashboard',
-      element: <Dashboard></Dashboard>
-    }
+      element: <Dashboard></Dashboard>,
+      children: [
+        {
+          path: '/dashboard',
+          element: <DashboardLayout></DashboardLayout>
+        }
+      ]
+    },
   ]);
 
 export default router;
