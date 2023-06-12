@@ -1,10 +1,12 @@
 import { Link, useRouteError } from "react-router-dom";
+import useHelmet from "../../../hooks/useHelmet";
 
 
 const ErrorPage = () => {
     const error = useRouteError();
     return (
         <div className="flex flex-col items-center justify-center h-[100vh]">
+            {useHelmet('Error')}
             <div>
                 <img className="w-52 mb-10" src="https://i.ibb.co/f9xmLxS/pngegg-3.png" alt="" />
             </div>

@@ -16,7 +16,7 @@ const ClassesCard = ({ singleClass }) => {
             navigate('/login')
         }
         const { language_name, country_name, instructor_name, available_seats, price, photo, _id } = singleClass;
-        const cartItem = { class_id: _id,language_name, country_name, instructor_name, available_seats, price, photo, user_email: user.email };
+        const cartItem = { class_id: _id, language_name, country_name, instructor_name, available_seats, price, photo, user_email: user.email };
         const isExist = cart.find(item => item.language_name === language_name);
         if (isExist) {
             Swal.fire(
@@ -26,7 +26,7 @@ const ClassesCard = ({ singleClass }) => {
             )
         }
         if (user && !isExist) {
-            fetch('http://localhost:5000/cart', {
+            fetch('https://language-mastery-server-chi.vercel.app/cart', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -60,7 +60,7 @@ const ClassesCard = ({ singleClass }) => {
                     <p><span className="font-semibold">Available Seats:</span>  {available_seats}</p>
                     <p><span className="font-semibold">Price:</span>  {price} Tk</p>
                     <div className="card-actions justify-start mt-5">
-                            <button disabled={available_seats == 0? true : false} onClick={() => { handleAdmit(singleClass) }} className="btn bg-[#1BABAF] text-white hover:text-black">Admit Now</button>
+                        <button disabled={available_seats == 0 ? true : false} onClick={() => { handleAdmit(singleClass) }} className="btn bg-[#1BABAF] text-white hover:text-black">Admit Now</button>
                     </div>
                 </div>
             </div>

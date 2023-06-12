@@ -1,13 +1,14 @@
 
 import { useEffect, useState } from "react";
 import InstructorCard from "../Home/InstructorSection/InstructorCard";
+import useHelmet from "../../../hooks/useHelmet";
 
 
 
 const Instructors = () => {
     const [loadedInstructors, setLoadedInstructors] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/instructors')
+        fetch('https://language-mastery-server-chi.vercel.app/instructors')
             .then(res => res.json())
             .then(data => setLoadedInstructors(data))
     }, [])
@@ -20,6 +21,8 @@ const Instructors = () => {
     }, [sortedInstructors])
     return (
         <div className='mt-10'>
+            {useHelmet('Instructors')}
+
             <div>
                 <h1 className='text-4xl font-bold text-center mb-16'>INSTRUCTORS</h1>
                 {/* TODO: create bottom line */}

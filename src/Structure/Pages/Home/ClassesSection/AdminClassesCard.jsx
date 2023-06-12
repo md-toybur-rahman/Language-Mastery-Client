@@ -15,7 +15,7 @@ const AdminClassesCard = ({ singleClass }) => {
         }
         const { language_name, country_name, price, instructor_name, total_student, available_seats, total_seats, photo, _id } = singleClass;
         const approveItem = { language_name, country_name, price, instructor_name, total_student, available_seats, total_seats, photo };
-        fetch('http://localhost:5000/classes', {
+        fetch('https://language-mastery-server-chi.vercel.app/classes', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -24,7 +24,7 @@ const AdminClassesCard = ({ singleClass }) => {
         })
             .then(res => res.json())
             .then(() => {
-                fetch(`http://localhost:5000/instructors_requirements/${_id}`, {
+                fetch(`https://language-mastery-server-chi.vercel.app/instructors_requirements/${_id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())

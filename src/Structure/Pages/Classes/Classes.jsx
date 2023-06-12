@@ -1,13 +1,14 @@
 
 import { useState, useEffect } from 'react';
 import ClassesCard from '../Home/ClassesSection/ClassesCard';
+import useHelmet from '../../../hooks/useHelmet';
 
 
 
 const Classes = () => {
     const [loadedClasses, setLoadedClasses] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/classes')
+        fetch('https://language-mastery-server-chi.vercel.app/classes')
             .then(res => res.json())
             .then(data => setLoadedClasses(data))
     }, [])
@@ -20,6 +21,8 @@ const Classes = () => {
     }, [sortedClasses])
     return (
         <div className='mt-10'>
+            {useHelmet('Classes')}
+
             <div>
                 <h1 className='text-4xl font-bold text-center mb-16'>CLASSES</h1>
                 {/* TODO: create bottom line */}

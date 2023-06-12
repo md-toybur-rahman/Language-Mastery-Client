@@ -4,7 +4,7 @@ import ClassesCard from './ClassesCard';
 const ClassesSection = () => {
     const [loadedClasses, setLoadedClasses] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/classes')
+        fetch('https://language-mastery-server-chi.vercel.app/classes')
             .then(res => res.json())
             .then(data => setLoadedClasses(data))
     }, [])

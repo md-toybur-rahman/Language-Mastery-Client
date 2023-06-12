@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
     }
     const updateUserProfile = (name, photo) => {
         setLoading(true);
-         return updateProfile(auth.currentUser, {
+        return updateProfile(auth.currentUser, {
             displayName: name, photoURL: photo
         })
     }
@@ -40,19 +40,19 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setLoading(false)
-            if(currentUser && currentUser.email) {
-                const user  = { email: currentUser.email}
-                fetch('http://localhost:5000/jwt', {
+            if (currentUser && currentUser.email) {
+                const user = { email: currentUser.email }
+                fetch('https://language-mastery-server-chi.vercel.app/jwt', {
                     method: 'POST',
                     headers: {
-                        'content-type' : 'application/json'
+                        'content-type': 'application/json'
                     },
                     body: JSON.stringify(user)
                 })
-                .then(res => res.json())
-                .then(data => {
-                    localStorage.setItem('access_token', data.token);
-                })
+                    .then(res => res.json())
+                    .then(data => {
+                        localStorage.setItem('access_token', data.token);
+                    })
             }
             else {
                 localStorage.removeItem('access_token')

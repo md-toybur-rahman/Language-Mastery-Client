@@ -21,7 +21,7 @@ const AddedClass = () => {
                     const imageURL = result.data.display_url;
                     const { language_name, country_name, price, instructor_name, total_student, available_seats, total_seats } = data;
                     const newItem = { language_name, country_name, price: parseFloat(price), instructor_name, total_student, available_seats, total_seats, photo: imageURL }
-                    fetch('http://localhost:5000/instructors_requirements', {
+                    fetch('https://language-mastery-server-chi.vercel.app/instructors_requirements', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'

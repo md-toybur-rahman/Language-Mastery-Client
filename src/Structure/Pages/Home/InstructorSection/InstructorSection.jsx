@@ -6,7 +6,7 @@ import InstructorCard from "./InstructorCard";
 const InstructorSection = () => {
     const [loadedInstructors, setLoadedInstructors] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/instructors')
+        fetch('https://language-mastery-server-chi.vercel.app/instructors')
             .then(res => res.json())
             .then(data => setLoadedInstructors(data))
     }, [])

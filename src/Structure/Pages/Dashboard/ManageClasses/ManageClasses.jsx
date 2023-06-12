@@ -1,6 +1,7 @@
 import useAxios from "../../../../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import AdminClassesCard from "../../Home/ClassesSection/AdminClassesCard";
+import useHelmet from "../../../../hooks/useHelmet";
 
 
 
@@ -13,6 +14,7 @@ const ManageClasses = () => {
     console.log(classes);
     return (
         <div>
+            {useHelmet('Manage Class')}
             {
                 classes.map(singleClass => <AdminClassesCard key={singleClass._id} singleClass={singleClass}></AdminClassesCard>)
             }

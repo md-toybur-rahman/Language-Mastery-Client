@@ -41,7 +41,7 @@ const SignUp = () => {
                             updateUserProfile(name, imageURL)
                                 .then(() => {
                                     const user = { name, email, type: 'student' }
-                                    fetch('http://localhost:5000/users', {
+                                    fetch('https://language-mastery-server-chi.vercel.app/users', {
                                         method: 'POST',
                                         headers: {
                                             'content-type': 'application/json'
@@ -67,7 +67,7 @@ const SignUp = () => {
                 if (result._tokenResponse.isNewUser) {
                     const { displayName, email } = result.user;
                     const user = { name: displayName, email, type: 'student' }
-                    fetch('http://localhost:5000/users', {
+                    fetch('https://language-mastery-server-chi.vercel.app/users', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'

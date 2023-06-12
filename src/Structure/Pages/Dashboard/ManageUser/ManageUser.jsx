@@ -2,6 +2,7 @@ import useAxios from "../../../../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Slide } from "react-awesome-reveal";
+import useHelmet from "../../../../hooks/useHelmet";
 
 
 
@@ -13,7 +14,7 @@ const ManageUser = () => {
         return res.data;
     })
     const handleMakeAdmin = (user) => {
-        fetch(`http://localhost:5000/users/admin/${user._id}`, {
+        fetch(`https://language-mastery-server-chi.vercel.app/users/admin/${user._id}`, {
             method: 'PATCH'
         })
             .then(res => res.json())
@@ -31,7 +32,7 @@ const ManageUser = () => {
             })
     }
     const handleMakeInstructor = (user) => {
-        fetch(`http://localhost:5000/users/instructor/${user._id}`, {
+        fetch(`https://language-mastery-server-chi.vercel.app/users/instructor/${user._id}`, {
             method: 'PATCH'
         })
             .then(res => res.json())
@@ -50,7 +51,8 @@ const ManageUser = () => {
     }
     return (
         <div className="mt-10">
-            This is Manage Users
+            {useHelmet('Manage User')}
+
 
 
             <Slide className="overflow-x-auto">

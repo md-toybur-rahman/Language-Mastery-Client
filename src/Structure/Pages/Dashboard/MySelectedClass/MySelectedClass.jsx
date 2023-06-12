@@ -19,7 +19,7 @@ const MySelectedClass = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/cart/${id}`, {
+                fetch(`https://language-mastery-server-chi.vercel.app/cart/${id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())
@@ -38,13 +38,13 @@ const MySelectedClass = () => {
 
     }
     const handlePay = (item) => {
-        fetch('http://localhost:5000/classes')
+        fetch('https://language-mastery-server-chi.vercel.app/classes')
             .then(res => res.json())
             .then(data => {
                 const query = data.find(singleClass => singleClass._id === item.class_id);
                 console.log(query);
                 const newValue = { available_seats: (query.available_seats - 1), total_student: parseInt(query.total_student) + 1 }
-                fetch(`http://localhost:5000/classes/${item.class_id}`, {
+                fetch(`https://language-mastery-server-chi.vercel.app/classes/${item.class_id}`, {
                     method: 'PUT',
                     headers: {
                         'content-type': 'application/json'
@@ -56,7 +56,7 @@ const MySelectedClass = () => {
                     .then(data => {
                         console.log(data);
                         if (data.modifiedCount) {
-                            fetch(`http://localhost:5000/cart/${item._id}`, {
+                            fetch(`https://language-mastery-server-chi.vercel.app/cart/${item._id}`, {
                                 method: "DELETE"
                             })
                                 .then(res => res.json())

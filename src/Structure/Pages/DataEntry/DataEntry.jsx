@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 const image_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD_TOKEN
 const DataEntry = () => {
     const navigate = useNavigate();
-    const { register, reset, handleSubmit} = useForm();
+    const { register, reset, handleSubmit } = useForm();
     const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`
     const onSubmit = async (data) => {
         const formData = new FormData();
@@ -20,10 +20,10 @@ const DataEntry = () => {
                 if (result.success) {
                     const imageURL = result.data.display_url;
                     // const { language_name, country_name, price, instructor_name, total_student, available_seats, total_seats } = data;
-                    const { language_name, country_name, price, instructor_name, total_student, available_seats} = data;
+                    const { language_name, country_name, price, instructor_name, total_student, available_seats } = data;
                     // const newItem = { language_name, country_name, price: parseFloat(price), instructor_name, total_student, available_seats, total_seats, photo: imageURL }
                     const newItem = { language_name, country_name, email: price, instructor_name, number_of_students: total_student, taken_total_classes: available_seats, photo: imageURL }
-                    fetch('http://localhost:5000/instructors', {
+                    fetch('https://language-mastery-server-chi.vercel.app/instructors', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'
@@ -77,29 +77,29 @@ const DataEntry = () => {
                             <label className="label">
                                 <span className="label-text">Language Name</span>
                             </label>
-                            <input type="text" {...register("language_name", )} placeholder="Language Name" className="input input-bordered" />
+                            <input type="text" {...register("language_name",)} placeholder="Language Name" className="input input-bordered" />
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Country Name</span>
                             </label>
-                            <input type="text" {...register("country_name", )} placeholder="Country Name" className="input input-bordered" />
-                            
+                            <input type="text" {...register("country_name",)} placeholder="Country Name" className="input input-bordered" />
+
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Number of Student</span>
                             </label>
-                            <input type="number" placeholder="Number of Student" {...register("total_student", )} className='input input-bordered' />
-                            
+                            <input type="number" placeholder="Number of Student" {...register("total_student",)} className='input input-bordered' />
+
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 {/* <span className="label-text">Available Seats</span> */}
                                 <span className="label-text">Class Taken</span>
                             </label>
-                            <input type="number" placeholder="Available Seats" {...register("available_seats", )} className='input input-bordered' />
-                            
+                            <input type="number" placeholder="Available Seats" {...register("available_seats",)} className='input input-bordered' />
+
                         </div>
                         {/* <div className="form-control">
                             <label className="label">
@@ -113,21 +113,21 @@ const DataEntry = () => {
                                 {/* <span className="label-text">Price</span> */}
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="text" placeholder="Price" {...register("price", )} className='input input-bordered' />
-                            
+                            <input type="text" placeholder="Price" {...register("price",)} className='input input-bordered' />
+
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Instructor name</span>
                             </label>
-                            <input type="text" placeholder="Instructor Name" {...register("instructor_name", )} className='input input-bordered' />
-                            
+                            <input type="text" placeholder="Instructor Name" {...register("instructor_name",)} className='input input-bordered' />
+
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Photo</span>
                             </label>
-                            <input type="file"  {...register("photo", )} className="file-input file-input-bordered w-full" />
+                            <input type="file"  {...register("photo",)} className="file-input file-input-bordered w-full" />
                         </div>
                         <div className="form-control mt-6">
                             <input type='submit' value={"Add Item"} className="btn bg-[#1BABAF] hover:bg-[#E5B14C]" />
