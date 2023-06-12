@@ -20,7 +20,7 @@ const Navbar = () => {
         <Link to="/">HOME</Link>
         <Link to="/instructors">INSTRUCTORS</Link>
         <Link to="/classes">CLASSES</Link>
-        <Link className='flex items-center' to="/dashboard">DASHBOARD <span className='text-[#1BABAF] text-lg'> +{cart.length}</span></Link>
+        <Link className='flex items-center' to="/dashboard">DASHBOARD <span className='text-[#1BABAF] text-lg'>+{cart.length}</span></Link>
         <Link to="/data">DATA ENTRY</Link>
         <FaSearch></FaSearch>
     </div>

@@ -4,15 +4,8 @@ import useCart from "../../../../hooks/useCart";
 
 
 const MySelectedClass = () => {
-    const [cart, loading] = useCart()
-    if (loading) {
-        return <div className='h-[100vh] flex items-center justify-center'>
-            <div className='flex gap-5'>
-                <progress className='progress w-40 h-5'></progress>
-                <progress className='progress w-40 h-5'></progress>
-            </div>
-        </div>
-    }
+    const cart = useCart();
+    console.log(cart);
     const handleDelete = (id) => {
         Swal.fire({
             title: 'Are you sure?',
@@ -29,6 +22,7 @@ const MySelectedClass = () => {
                 })
                     .then(res => res.json())
                     .then(() => {
+
                         Swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',
