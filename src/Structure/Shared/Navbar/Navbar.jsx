@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
 import { SlLocationPin, SlScreenSmartphone, SlEnvolope } from "react-icons/sl";
-import { FaFacebookF, FaTwitter, FaSkype, FaSearch } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaSkype } from "react-icons/fa";
 import { MdMenu, MdClose } from "react-icons/md";
 import { GrLinkedinOption } from "react-icons/gr";
 import { AuthContext } from '../../../Providers/AuthProvider';
@@ -14,8 +14,8 @@ const Navbar = () => {
     const [menu, setMenu] = useState(false)
     const handleLogOut = () => {
         logOut()
-            .then()
-            .catch()
+        .then()
+        .catch()
     }
     console.log(user);
     const navItem = <div className='flex items-center gap-8 font-semibold'>
@@ -23,7 +23,6 @@ const Navbar = () => {
         <Link to="/instructors">INSTRUCTORS</Link>
         <Link to="/classes">CLASSES</Link>
         <Link className='flex items-center' to="/dashboard">DASHBOARD <span className='text-[#1BABAF] text-lg'>+{cart.length}</span></Link>
-        <FaSearch></FaSearch>
     </div>
     const responsiveNavItem = <div className='flex flex-col items-center gap-8 font-semibold'>
         <Link to="/">HOME</Link>
