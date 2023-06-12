@@ -2,31 +2,24 @@
 import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { SlLocationPin, SlScreenSmartphone, SlEnvolope } from "react-icons/sl";
-import { FaFacebookF, FaTwitter, FaSkype, FaSearch } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaSkype } from "react-icons/fa";
 import { GrLinkedinOption } from "react-icons/gr";
 import { AuthContext } from '../../../../Providers/AuthProvider';
-import useCart from '../../../../hooks/useCart';
+
 
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
-    const [cart] = useCart();
     const handleLogOut = () => {
         logOut()
             .then()
             .catch()
     }
     console.log(user);
-    const navItem = <div className='flex items-center gap-8 font-semibold'>
-        <Link to="/">HOME</Link>
-        <Link className='flex items-center' to="/dashboard">MY SELECTED CLASSES <span className='text-[#1BABAF] text-lg'> +{cart.length}</span></Link>
-        <Link to="payment">MY ENROLLED CLASSES</Link>
-        <FaSearch></FaSearch>
-    </div>
     return (
         // TODO: responsive and Active NavLink
         <div>
-            <div className='flex items-center justify-between border-b-2 py-2'>
+            <div className='md:flex items-center justify-between border-b-2 py-2 hidden'>
                 <div className='flex items-center gap-3'>
                     <span className='flex items-center gap-2'><SlLocationPin className='text-[#1BABAF]'></SlLocationPin> Dhaka, Bangladesh</span>
                     <span className='flex items-center gap-2'><SlScreenSmartphone className='text-[#1BABAF]'></SlScreenSmartphone> +88012-3456-7890</span>
@@ -43,20 +36,16 @@ const Navbar = () => {
             <nav className='flex items-center justify-between py-5'>
                 <div className='flex items-center gap-3'>
                     <img className='w-[40px]' src="https://i.ibb.co/g62PGPf/New-Project.png" alt="" />
-                    <h1 className='text-3xl'><span className='font-bold'>Language</span> Mastery</h1>
-                </div>
-                <div>
-                    {
-                        navItem
-                    }
+                    <h1 className='text-3xl hidden md:block'><span className='font-bold'>Language</span> Mastery</h1>
                 </div>
                 {
                     user ?
                         <div className='flex items-center gap-7'>
-                            <img className='rounded-full w-12 h-12' src={user.photoURL} alt="" />
-                            <button onClick={handleLogOut} className='bg-[#1BABAF] px-7 py-2 font-semibold rounded-3xl'><Link>Logout</Link></button>
+                            <img className='hidden md:block rounded-full w-12 h-12' src={user.photoURL} alt="" />
+                            <button onClick={handleLogOut} className='block bg-[#1BABAF] px-7 py-2 font-semibold rounded-3xl'><Link>Logout</Link></button>
                         </div>
-                        : <div><button className='bg-[#1BABAF] px-7 py-2 font-semibold rounded-3xl'><Link to='/login'>Login</Link></button></div>
+                        : <div><button className='
+                         bg-[#1BABAF] px-7 py-2 font-semibold rounded-3xl'><Link to='/login'>Login</Link></button></div>
                 }
             </nav>
         </div>
