@@ -8,44 +8,37 @@ import Swal from "sweetalert2";
 
 const AdminClassesCard = ({ singleClass }) => {
     const { user } = useContext(AuthContext);
-    const [, refetch] = useCart()
     const navigate = useNavigate();
-    const cart = useCart();
     const { language_name, country_name, instructor_name, total_student, available_seats, photo, price } = singleClass;
     const handleApprove = (singleClass) => {
         if (!user) {
             navigate('/login')
         }
-        const { language_name, country_name, instructor_name, available_seats, price, photo, _id } = singleClass;
-        const cartItem = { class_id: _id, language_name, country_name, instructor_name, available_seats, price, photo, user_email: user.email };
-        const isExist = cart.find(item => item.language_name === language_name);
-        if (isExist) {
-            Swal.fire(
-                'OPS!',
-                'This item already in Cart',
-                'question'
-            )
-        }
-        if (user && !isExist) {
-            fetch('http://localhost:5000/cart', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(cartItem),
-            })
-                .then(res => res.json())
-                .then(() => {
-                    refetch()
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Item Added Successfully',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+        const { language_name, country_name, price, instructor_name, total_student, available_seats, total_seats, photo, _id } = singleClass;
+        const approveItem = { language_name, country_name, price, instructor_name, total_student, available_seats, total_seats, photo };
+        fetch('http://localhost:5000/classes', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(approveItem),
+        })
+            .then(res => res.json())
+            .then(() => {
+                fetch(`http://localhost:5000/instructors_requirements/${_id}`, {
+                    method: 'DELETE'
                 })
-        }
+                    .then(res => res.json())
+                    .then(() => {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Item Added Successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    })
+            })
     }
     return (
         <div>
