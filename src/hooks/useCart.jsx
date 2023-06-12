@@ -1,41 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../Providers/AuthProvider';
+import { useQuery } from "@tanstack/react-query";
+import { useContext } from 'react';
+import { AuthContext } from "../Providers/AuthProvider";
 
 const useCart = () => {
-    const [loading, setLoading] = useState(true);
-    const { user } = useContext(AuthContext);
-    const [cart, setCart] = useState([]);
+    const { user, loading } = useContext(AuthContext);
+    const token = localStorage.getItem('access_token')
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/cart?email=${user?.email}`, {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-                authorization: `Bearer ${localStorage.getItem('access_token')}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (!data.error) {
-                    console.log(data);
-                    setCart(data)
-                    setLoading(false)
+    const { data: cart = [], refetch } = useQuery({
+        queryKey: ['carts', user?.email],
+        enabled: !loading,
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/cart?email=${user?.email}`, {
+                headers: {
+                    authorization: `Bearer ${token}`
                 }
             })
-
-    }, [user, loading]);
-
-    if (loading) {
-        return <div className='h-[100vh] flex items-center justify-center'>
-            <div className='flex gap-5'>
-                <progress className='progress w-40 h-5'></progress>
-                <progress className='progress w-40 h-5'></progress>
-            </div>
-        </div>
-    }
-    else{
-        return cart;
-    }
+            return res.json()
+        },
+    })
+    return [cart, refetch]
 
 };
 

@@ -12,6 +12,7 @@ import Classes from "../Pages/Classes/Classes";
 import Dashboard from "../Layout/Dashboard";
 import DashboardLayout from "../Pages/Dashboard/DashboardLayout/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 
 
@@ -44,8 +45,10 @@ const router = createBrowserRouter([
         path: '/data',
         element: <DataEntry></DataEntry>
       },
-    ]
+    ],
+    errorElement: <ErrorPage></ErrorPage>
   },
+
   {
     path: '/dashboard',
     element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
@@ -58,7 +61,8 @@ const router = createBrowserRouter([
         path: 'payment',
         element: <h1 className="text-4xl">my payment</h1>
       }
-    ]
+    ],
+    errorElement: <ErrorPage></ErrorPage>
   },
 ]);
 

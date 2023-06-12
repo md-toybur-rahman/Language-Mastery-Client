@@ -20,7 +20,7 @@ const InstructorSection = () => {
     return (
         <div className='mt-40'>
             <div>
-                <h1 className='text-4xl font-bold text-center mb-16'>POPULAR INSTRUCTORS</h1>
+                <h1 className='text-3xl md:text-4xl font-bold text-center mb-16'>POPULAR INSTRUCTORS</h1>
                 {/* TODO: create bottom line */}
             </div>
             <div className="flex justify-center">

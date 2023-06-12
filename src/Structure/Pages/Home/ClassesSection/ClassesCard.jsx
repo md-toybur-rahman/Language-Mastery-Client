@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 
 const ClassesCard = ({ singleClass }) => {
     const { user } = useContext(AuthContext);
+    const [, refetch] = useCart()
     const navigate = useNavigate();
     const cart = useCart();
     const { language_name, country_name, instructor_name, total_student, available_seats, photo, price } = singleClass;
@@ -34,6 +35,7 @@ const ClassesCard = ({ singleClass }) => {
             })
                 .then(res => res.json())
                 .then(() => {
+                    refetch()
                     Swal.fire({
                         position: 'center',
                         icon: 'success',

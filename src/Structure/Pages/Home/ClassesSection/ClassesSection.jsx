@@ -16,15 +16,17 @@ const ClassesSection = () => {
         setClasses(sortedClasses.slice(0, 6));
     }, [sortedClasses])
     return (
-        <div className='mt-40'>
+        <div className='mt-16 md:mt-40'>
             <div>
-                <h1 className='text-4xl font-bold text-center mb-16'>POPULAR CLASSES</h1>
+                <h1 className='text-3xl md:text-4xl font-bold text-center mb-16'>POPULAR CLASSES</h1>
                 {/* TODO: create bottom line */}
             </div>
-            <div className='grid grid-cols-1 gap-10 md:grid-cols-3'>
-                {
-                    classes.map(singleClass => <ClassesCard key={singleClass._id} singleClass={singleClass}></ClassesCard>)
-                }
+            <div className='flex justify-center'>
+                <div className='grid grid-cols-1 gap-10 md:grid-cols-3'>
+                    {
+                        classes.map(singleClass => <ClassesCard key={singleClass._id} singleClass={singleClass}></ClassesCard>)
+                    }
+                </div>
             </div>
         </div>
     );

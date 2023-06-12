@@ -5,8 +5,10 @@ const InstructorCard = ({ instructor }) => {
     return (
         <div>
             <div className="card w-96 bg-base-100 shadow-xl">
-                <div className="w-[320px] h-[320px] rounded-xl mt-4">
-                    <figure><img className='w-full h-full rounded-xl' src={photo} alt="" /></figure>
+                <div className="flex justify-center">
+                    <div className="w-[320px] h-[320px] rounded-xl mt-4">
+                        <figure><img className='w-full h-full rounded-xl' src={photo} alt="" /></figure>
+                    </div>
                 </div>
                 <div className="card-body">
                     <h2 className="card-title">{instructor_name}</h2>

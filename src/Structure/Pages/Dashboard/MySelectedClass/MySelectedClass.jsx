@@ -4,7 +4,7 @@ import useCart from "../../../../hooks/useCart";
 
 
 const MySelectedClass = () => {
-    const cart = useCart();
+    const [cart, refetch] = useCart();
     console.log(cart);
     const handleDelete = (id) => {
         Swal.fire({
@@ -22,7 +22,7 @@ const MySelectedClass = () => {
                 })
                     .then(res => res.json())
                     .then(() => {
-
+                        refetch()
                         Swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',
