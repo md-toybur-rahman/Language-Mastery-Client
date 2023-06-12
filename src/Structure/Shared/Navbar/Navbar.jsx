@@ -23,7 +23,6 @@ const Navbar = () => {
         <Link to="/instructors">INSTRUCTORS</Link>
         <Link to="/classes">CLASSES</Link>
         <Link className='flex items-center' to="/dashboard">DASHBOARD <span className='text-[#1BABAF] text-lg'>+{cart.length}</span></Link>
-        <Link to="/data">DATA ENTRY</Link>
         <FaSearch></FaSearch>
     </div>
     const responsiveNavItem = <div className='flex flex-col items-center gap-8 font-semibold'>
@@ -31,7 +30,6 @@ const Navbar = () => {
         <Link to="/instructors">INSTRUCTORS</Link>
         <Link to="/classes">CLASSES</Link>
         <Link className='flex items-center' to="/dashboard">DASHBOARD <span className='text-[#1BABAF] text-lg'>+{cart.length}</span></Link>
-        <Link to="/data">DATA ENTRY</Link>
     </div>
     return (
         // TODO: responsive and Active NavLink

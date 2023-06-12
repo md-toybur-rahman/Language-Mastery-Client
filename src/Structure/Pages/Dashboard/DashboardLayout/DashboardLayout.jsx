@@ -21,6 +21,11 @@ const DashboardLayout = () => {
                 <ManageUser></ManageUser> : 
                 <></>
             }
+            {
+                isInstructor ? 
+                <h1>Hello Instructor</h1> : 
+                <></>
+            }
         </div>
     );
 };

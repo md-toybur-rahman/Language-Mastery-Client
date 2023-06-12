@@ -5,18 +5,19 @@ import useCart from "../../../../hooks/useCart";
 import Swal from "sweetalert2";
 
 
-const ClassesCard = ({ singleClass }) => {
+
+const AdminClassesCard = ({ singleClass }) => {
     const { user } = useContext(AuthContext);
     const [, refetch] = useCart()
     const navigate = useNavigate();
     const cart = useCart();
     const { language_name, country_name, instructor_name, total_student, available_seats, photo, price } = singleClass;
-    const handleAdmit = (singleClass) => {
+    const handleApprove = (singleClass) => {
         if (!user) {
             navigate('/login')
         }
         const { language_name, country_name, instructor_name, available_seats, price, photo, _id } = singleClass;
-        const cartItem = { class_id: _id,language_name, country_name, instructor_name, available_seats, price, photo, user_email: user.email };
+        const cartItem = { class_id: _id, language_name, country_name, instructor_name, available_seats, price, photo, user_email: user.email };
         const isExist = cart.find(item => item.language_name === language_name);
         if (isExist) {
             Swal.fire(
@@ -60,7 +61,7 @@ const ClassesCard = ({ singleClass }) => {
                     <p><span className="font-semibold">Available Seats:</span>  {available_seats}</p>
                     <p><span className="font-semibold">Price:</span>  {price} Tk</p>
                     <div className="card-actions justify-start mt-5">
-                            <button disabled={available_seats == 0? true : false} onClick={() => { handleAdmit(singleClass) }} className="btn bg-[#1BABAF] text-white hover:text-black">Admit Now</button>
+                        <button disabled={available_seats == 0 ? true : false} onClick={() => { handleApprove(singleClass) }} className="btn bg-[#1BABAF] text-white hover:text-black">Approve</button>
                     </div>
                 </div>
             </div>
@@ -68,4 +69,4 @@ const ClassesCard = ({ singleClass }) => {
     );
 };
 
-export default ClassesCard;
+export default AdminClassesCard;

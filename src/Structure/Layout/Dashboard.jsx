@@ -55,8 +55,8 @@ const Dashboard = () => {
                         isInstructor ?
                             <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
                                 <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="/">HOME</Link>
-                                <Link className='flex items-center bg-[#1BABAF] py-4 justify-center font-bold text-md mb-5 text-white' to="/dashboard">Instructor<span className='text-lg'> +{cart.length}</span></Link>
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="payment">MY ENROLLED CLASSES</Link>
+                                <Link className='flex items-center bg-[#1BABAF] py-4 justify-center font-bold text-md mb-5 text-white' to="/dashboard">SHOW ALL CLASSES<span className='text-lg'> +{cart.length}</span></Link>
+                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="add_class">ADDED A CLASS</Link>
                             </ul>:
                             ''
                     }
