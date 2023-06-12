@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import useCart from "../../../../hooks/useCart";
 import Swal from "sweetalert2";
 
 
