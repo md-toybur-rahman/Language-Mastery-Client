@@ -1,10 +1,26 @@
+import useAdmin from "../../../../hooks/useAdmin";
+import useInstructor from "../../../../hooks/useInstructor";
+import ManageUser from "../ManageUser/ManageUser";
 import MySelectedClass from "../MySelectedClass/MySelectedClass";
 
 
 const DashboardLayout = () => {
+    const [isAdmin] = useAdmin();
+    const [isInstructor] = useInstructor();
+
+
     return (
         <div>
-            <MySelectedClass></MySelectedClass>
+            {
+                !isAdmin && !isInstructor ? 
+                <MySelectedClass></MySelectedClass> :
+                <></>
+            }
+            {
+                isAdmin ? 
+                <ManageUser></ManageUser> : 
+                <></>
+            }
         </div>
     );
 };

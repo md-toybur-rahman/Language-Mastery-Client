@@ -13,6 +13,8 @@ import Dashboard from "../Layout/Dashboard";
 import DashboardLayout from "../Pages/Dashboard/DashboardLayout/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import ManageClasses from "../Pages/Dashboard/ManageClasses/ManageClasses";
+import AdminRoute from "./AdminRoute";
 
 
 
@@ -56,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: '/dashboard',
         element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>
+      },
+      {
+        path: 'manage_classes',
+        element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>
       },
       {
         path: 'payment',

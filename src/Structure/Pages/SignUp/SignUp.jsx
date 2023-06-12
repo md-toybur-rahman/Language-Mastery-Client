@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../../Providers/AuthProvider';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GrFormViewHide, GrFormView } from "react-icons/gr";
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
@@ -11,12 +11,14 @@ const SignUp = () => {
     const { googleLogin, createUser, updateUserProfile, signIn } = useContext(AuthContext);
     const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
     const [show, setShow] = useState(false);
     const [type, setType] = useState('password');
     const [error, setError] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = async data => {
-        const {password, confirm_password, name, email, photo } = data;
+        const { password, confirm_password, name, email, photo } = data;
         if (password !== confirm_password) {
             setError(true)
             return;
@@ -48,7 +50,7 @@ const SignUp = () => {
                                     })
                                     signIn(email, password)
                                         .then(() => {
-                                            navigate('/')
+                                            navigate(from, { replace: true });
                                         })
                                         .catch()
                                 })
@@ -62,8 +64,8 @@ const SignUp = () => {
         googleLogin()
             .then((result) => {
                 console.log(result);
-                if(result._tokenResponse.isNewUser) {
-                    const { displayName , email } = result.user;
+                if (result._tokenResponse.isNewUser) {
+                    const { displayName, email } = result.user;
                     const user = { name: displayName, email, type: 'student' }
                     fetch('http://localhost:5000/users', {
                         method: 'POST',
@@ -71,9 +73,9 @@ const SignUp = () => {
                             'content-type': 'application/json'
                         },
                         body: JSON.stringify(user)
-                    })         
+                    })
                 }
-                navigate('/')
+                navigate(from, { replace: true });
             })
             .catch()
     }

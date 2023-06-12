@@ -46,8 +46,8 @@ const Dashboard = () => {
                         isAdmin ?
                             <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
                                 <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="/">HOME</Link>
-                                <Link className='flex items-center bg-[#1BABAF] py-4 justify-center font-bold text-md mb-5 text-white' to="/dashboard">MANAGE INSTRUCTORS</Link>
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="payment">MANAGE USERS</Link>
+                                <Link className='flex items-center bg-[#1BABAF] py-4 justify-center font-bold text-md mb-5 text-white' to="/dashboard">MANAGE USERS</Link>
+                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="manage_classes">MANAGE CLASSES</Link>
                             </ul>:
                             ''
                     }

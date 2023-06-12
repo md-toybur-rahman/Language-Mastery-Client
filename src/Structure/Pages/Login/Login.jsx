@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { GrFormViewHide, GrFormView } from "react-icons/gr";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,8 @@ const Login = () => {
     const [show, setShow] = useState(false);
     const [type, setType] = useState('password');
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
     const onSubmit = data => {
         signIn(data.email, data.password)
             .then(() => {
@@ -33,7 +35,7 @@ const Login = () => {
                         body: JSON.stringify(user)
                     })
                 }
-                navigate('/')
+                navigate(from, { replace: true });
             })
             .catch()
     }
