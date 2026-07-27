@@ -27,43 +27,78 @@ const Login = () => {
     const onSubmit = (data) => {
 
         signIn(data.email, data.password)
-            .then(() => {
-                navigate(from, { replace: true });
+            .then(async (result) => {
+
+                const currentUser = {
+                    email: result.user.email
+                }
+
+                const res = await fetch("http://localhost:5000/jwt", {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(currentUser)
+                })
+
+                const data = await res.json();
+
+                localStorage.setItem("access_token", data.token);
+
+                navigate(from, { replace: true })
+
             })
             .catch((err) => console.log(err));
 
     };
 
-    const handleGoogle = () => {
+    const handleGoogle = async () => {
+        try {
+            const result = await googleLogin();
 
-        googleLogin()
-            .then((result) => {
+            // Save new user to MongoDB if first login
+            if (result._tokenResponse.isNewUser) {
+                const { displayName, email } = result.user;
 
-                if (result._tokenResponse.isNewUser) {
+                const user = {
+                    name: displayName,
+                    email,
+                    type: "student",
+                };
 
-                    const { displayName, email } = result.user;
+                await fetch("http://localhost:5000/users", {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(user),
+                });
+            }
 
-                    const user = {
-                        name: displayName,
-                        email,
-                        type: "student",
-                    };
+            // Request JWT from your server
+            const currentUser = {
+                email: result.user.email,
+            };
 
-                    fetch("http://localhost:5000/users", {
-                        method: "POST",
-                        headers: {
-                            "content-type": "application/json",
-                        },
-                        body: JSON.stringify(user),
-                    });
+            const jwtRes = await fetch("http://localhost:5000/jwt", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(currentUser),
+            });
 
-                }
+            const jwtData = await jwtRes.json();
 
-                navigate(from, { replace: true });
+            // Save JWT
+            localStorage.setItem("access_token", jwtData.token);
 
-            })
-            .catch(console.log);
+            // Navigate
+            navigate(from, { replace: true });
 
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -76,7 +111,7 @@ const Login = () => {
 
                 <div className="absolute left-0 top-0 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl"></div>
 
-                <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-teal-500/10 blur-3xl"></div>
+                <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-amber-400/10 blur-3xl"></div>
 
             </div>
 
@@ -87,7 +122,7 @@ const Login = () => {
 
                     <div>
 
-                        <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-2 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
+                        <span className="rounded-full border border-amber-400/20 bg-amber-400/10 px-5 py-2 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
                             Welcome Back
                         </span>
 
@@ -95,7 +130,7 @@ const Login = () => {
 
                             Continue Your
 
-                            <span className="bg-gradient-to-r from-cyan-300 to-teal-400 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-cyan-300 to-amber-400 bg-clip-text text-transparent">
                                 {" "}Language Journey
                             </span>
 
@@ -111,7 +146,7 @@ const Login = () => {
 
                         <div className="mt-12 flex items-center gap-5">
 
-                            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 to-teal-500 text-2xl text-slate-950 shadow-xl">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-300 to-amber-400 text-2xl text-slate-950 shadow-xl">
 
                                 <FaGraduationCap />
 
@@ -165,13 +200,13 @@ const Login = () => {
 
                                 <div className="relative">
 
-                                    <FaEnvelope className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-400" />
+                                    <FaEnvelope className="absolute left-5 top-1/2 -translate-y-1/2 text-amber-400" />
 
                                     <input
                                         type="email"
                                         placeholder="Enter your email"
                                         {...register("email", { required: true })}
-                                        className="h-14 w-full rounded-xl border border-slate-700 bg-slate-900 pl-14 pr-5 text-white outline-none transition focus:border-cyan-400"
+                                        className="h-14 w-full rounded-xl border border-slate-700 bg-slate-900 pl-14 pr-5 text-white outline-none transition focus:border-cyan-300"
                                     />
 
                                 </div>
@@ -195,13 +230,13 @@ const Login = () => {
 
                                 <div className="relative">
 
-                                    <FaLock className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-400" />
+                                    <FaLock className="absolute left-5 top-1/2 -translate-y-1/2 text-amber-400" />
 
                                     <input
                                         type={showPassword ? "text" : "password"}
                                         placeholder="Enter your password"
                                         {...register("password", { required: true })}
-                                        className="h-14 w-full rounded-xl border border-slate-700 bg-slate-900 pl-14 pr-14 text-white outline-none transition focus:border-cyan-400"
+                                        className="h-14 w-full rounded-xl border border-slate-700 bg-slate-900 pl-14 pr-14 text-white outline-none transition focus:border-cyan-300"
                                     />
 
                                     <button
@@ -209,7 +244,7 @@ const Login = () => {
                                         onClick={() =>
                                             setShowPassword(!showPassword)
                                         }
-                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-xl text-slate-400 transition hover:text-cyan-300"
+                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-xl text-slate-400 transition hover:text-amber-400"
                                     >
                                         {showPassword ? (
                                             <FiEye />
@@ -230,7 +265,7 @@ const Login = () => {
 
                             <button
                                 type="submit"
-                                className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-teal-500 py-4 text-lg font-bold text-slate-950 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/30"
+                                className="w-full rounded-xl bg-gradient-to-r from-cyan-300 to-amber-400 py-4 text-lg font-bold text-slate-950 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/30"
                             >
                                 Login
                             </button>
@@ -254,10 +289,10 @@ const Login = () => {
 
                         <button
                             onClick={handleGoogle}
-                            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-900 py-4 font-semibold text-white transition duration-300 hover:border-cyan-400 hover:bg-slate-800"
+                            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-900 py-4 font-semibold text-white transition duration-300 hover:border-cyan-300 hover:bg-slate-800"
                         >
 
-                            <FaGoogle className="text-xl text-cyan-300" />
+                            <FaGoogle className="text-xl text-amber-400" />
 
                             Continue with Google
 
@@ -271,7 +306,7 @@ const Login = () => {
 
                             <Link
                                 to="/signUp"
-                                className="ml-2 font-bold text-cyan-300 transition hover:text-cyan-200"
+                                className="ml-2 font-bold text-amber-400 transition hover:text-cyan-300"
                             >
                                 Create Account
                             </Link>

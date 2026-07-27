@@ -27,7 +27,17 @@ const Navbar = () => {
     const [menu, setMenu] = useState(false);
 
     const handleLogOut = () => {
-        logOut().then().catch();
+        logOut().then(() => {
+            localStorage.removeItem("access_token");
+        }).catch(error => {
+            console.log(error);
+
+            Swal.fire({
+                icon: "error",
+                title: "Login Failed",
+                text: error.message
+            })
+        });
     };
 
     const navLink =
@@ -228,8 +238,8 @@ const Navbar = () => {
 
             <div
                 className={`lg:hidden overflow-hidden transition-all duration-500 ${menu
-                        ? "max-h-[500px] border-b border-slate-800 bg-slate-950"
-                        : "max-h-0"
+                    ? "max-h-[500px] border-b border-slate-800 bg-slate-950"
+                    : "max-h-0"
                     }`}
             >
                 <div className="mx-auto flex max-w-7xl flex-col px-6 py-6">
