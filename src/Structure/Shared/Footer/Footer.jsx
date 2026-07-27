@@ -1,33 +1,237 @@
+import {
+    FaFacebookF,
+    FaLinkedinIn,
+    FaGithub,
+    FaYoutube,
+    FaArrowRight,
+} from "react-icons/fa";
 
+import {
+    MdEmail,
+    MdLocationOn,
+    MdPhone,
+} from "react-icons/md";
+
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
-        <div>
-            <footer className="flex justify-between p-10 bg-[#1BABAF] text-black mt-28">
-                <div>
-                    <img className='w-[40px] mb-3' src="https://i.ibb.co/Rc51VNK/New-Project-1.png" alt="" />
-                    <p>Language Mastery<br />Education is our core service</p>
-                </div>
-                <div>
-                    <span className="footer-title">Social</span>
-                    <div className="grid grid-flow-col gap-7 mt-4">
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
-                        </a>
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg>
-                        </a>
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg>
-                        </a>
+        <footer className="relative mt-32 overflow-hidden border-t border-slate-800 bg-slate-950">
+
+            {/* Glow */}
+
+            <div className="absolute -left-32 top-0 h-80 w-80 rounded-full bg-amber-400/10 blur-3xl"></div>
+            <div className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-amber-500/10 blur-3xl"></div>
+
+            <div className="relative mx-auto max-w-7xl px-6 py-20">
+
+                <div className="grid gap-14 lg:grid-cols-4">
+
+                    {/* Logo */}
+
+                    <div>
+
+                        <div className="flex items-center gap-4">
+
+                            <img
+                                src="/logo.png"
+                                className="w-16"
+                                alt=""
+                            />
+
+                            <div>
+
+                                <h2 className="text-3xl font-black text-white">
+                                    Language
+                                </h2>
+
+                                <h3 className="text-2xl font-black text-amber-400">
+                                    Mastery
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                        <p className="mt-6 leading-8 text-slate-400">
+                            Learn languages with confidence through
+                            professional courses, expert instructors,
+                            interactive lessons and a premium learning
+                            experience.
+                        </p>
+
+                        <div className="mt-8 flex gap-4">
+
+                            <a className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-300 transition hover:border-amber-400 hover:bg-amber-400 hover:text-slate-950">
+                                <FaFacebookF />
+                            </a>
+
+                            <a className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-300 transition hover:border-amber-400 hover:bg-amber-400 hover:text-slate-950">
+                                <FaLinkedinIn />
+                            </a>
+
+                            <a className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-300 transition hover:border-amber-400 hover:bg-amber-400 hover:text-slate-950">
+                                <FaGithub />
+                            </a>
+
+                            <a className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-300 transition hover:border-amber-400 hover:bg-amber-400 hover:text-slate-950">
+                                <FaYoutube />
+                            </a>
+
+                        </div>
+
                     </div>
+
+                    {/* Quick Links */}
+
+                    <div>
+
+                        <h3 className="mb-7 text-xl font-bold text-white">
+                            Quick Links
+                        </h3>
+
+                        <div className="flex flex-col gap-4">
+
+                            <Link className="flex items-center gap-3 text-slate-400 transition hover:text-amber-300">
+                                <FaArrowRight className="text-xs" />
+                                Home
+                            </Link>
+
+                            <Link className="flex items-center gap-3 text-slate-400 transition hover:text-amber-300">
+                                <FaArrowRight className="text-xs" />
+                                Classes
+                            </Link>
+
+                            <Link className="flex items-center gap-3 text-slate-400 transition hover:text-amber-300">
+                                <FaArrowRight className="text-xs" />
+                                Instructors
+                            </Link>
+
+                            <Link className="flex items-center gap-3 text-slate-400 transition hover:text-amber-300">
+                                <FaArrowRight className="text-xs" />
+                                Dashboard
+                            </Link>
+
+                        </div>
+
+                    </div>
+
+                    {/* Contact */}
+
+                    <div>
+
+                        <h3 className="mb-7 text-xl font-bold text-white">
+                            Contact
+                        </h3>
+
+                        <div className="space-y-5">
+
+                            <div className="flex gap-4">
+
+                                <div className="mt-1 text-xl text-amber-400">
+                                    <MdLocationOn />
+                                </div>
+
+                                <p className="leading-7 text-slate-400">
+                                    Dhaka, Bangladesh
+                                </p>
+
+                            </div>
+
+                            <div className="flex gap-4">
+
+                                <div className="mt-1 text-xl text-amber-400">
+                                    <MdPhone />
+                                </div>
+
+                                <p className="text-slate-400">
+                                    +880 1234 567890
+                                </p>
+
+                            </div>
+
+                            <div className="flex gap-4">
+
+                                <div className="mt-1 text-xl text-amber-400">
+                                    <MdEmail />
+                                </div>
+
+                                <p className="text-slate-400">
+                                    support@languagemastery.com
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {/* Newsletter */}
+
+                    <div>
+
+                        <h3 className="mb-7 text-xl font-bold text-white">
+                            Newsletter
+                        </h3>
+
+                        <p className="mb-6 leading-7 text-slate-400">
+                            Subscribe to receive learning tips, course updates
+                            and educational resources.
+                        </p>
+
+                        <div className="space-y-4">
+
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                className="w-full rounded-xl border border-slate-700 bg-slate-900 px-5 py-4 text-white outline-none transition focus:border-amber-400"
+                            />
+
+                            <button
+                                className="w-full rounded-xl bg-gradient-to-r from-cyan-300 to-amber-400 py-4 font-bold uppercase tracking-[0.18em] text-slate-950 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/30"
+                            >
+                                Subscribe
+                            </button>
+
+                        </div>
+
+                    </div>
+
                 </div>
-            </footer>
-            <div className="flex justify-center p-5 bg-neutral text-neutral-content">
-                <p>Copyright © 2023 - All right reserved</p>
+
+                {/* Bottom */}
+
+                <div className="mt-16 border-t border-slate-800 pt-8">
+
+                    <div className="flex flex-col items-center justify-between gap-5 text-center md:flex-row">
+
+                        <p className="text-slate-500">
+                            © {new Date().getFullYear()} Language Mastery. All rights reserved.
+                        </p>
+
+                        <div className="flex gap-8 text-sm text-slate-500">
+
+                            <a className="transition hover:text-amber-300">
+                                Privacy Policy
+                            </a>
+
+                            <a className="transition hover:text-amber-300">
+                                Terms & Conditions
+                            </a>
+
+                            <a className="transition hover:text-amber-300">
+                                Support
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-        </div>
+        </footer>
     );
 };
 

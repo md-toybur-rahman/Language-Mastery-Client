@@ -9,7 +9,7 @@ const useAxios = () => {
     const navigate = useNavigate();
 
     const axiosSecure = axios.create({
-        baseURL: 'https://language-mastery-server-chi.vercel.app',
+        baseURL: 'http://localhost:5000',
     });
 
     useEffect(() => {
@@ -25,8 +25,8 @@ const useAxios = () => {
             (response) => response,
             async (error) => {
                 if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-                    await logOut();
-                    navigate('/login');
+                    // await logOut();
+                    // navigate('/login');
                 }
                 return Promise.reject(error);
             }

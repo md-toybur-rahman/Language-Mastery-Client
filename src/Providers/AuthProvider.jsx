@@ -40,9 +40,9 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setLoading(false)
-            if (currentUser && currentUser.email) {
+            if (currentUser) {
                 const user = { email: currentUser.email }
-                fetch('https://language-mastery-server-chi.vercel.app/jwt', {
+                fetch('http://localhost:5000/jwt', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'

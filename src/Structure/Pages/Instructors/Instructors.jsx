@@ -8,7 +8,7 @@ import useHelmet from "../../../hooks/useHelmet";
 const Instructors = () => {
     const [loadedInstructors, setLoadedInstructors] = useState([])
     useEffect(() => {
-        fetch('https://language-mastery-server-chi.vercel.app/instructors')
+        fetch('http://localhost:5000/instructors')
             .then(res => res.json())
             .then(data => setLoadedInstructors(data))
     }, [])

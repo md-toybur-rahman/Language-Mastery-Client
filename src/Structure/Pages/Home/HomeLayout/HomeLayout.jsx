@@ -3,6 +3,8 @@ import useHelmet from '../../../../hooks/useHelmet';
 import Banner from '../Banner/Banner';
 import ClassesSection from '../ClassesSection/ClassesSection';
 import InstructorSection from '../InstructorSection/InstructorSection';
+import StudentJourney from '../StudentJourney/StudentJourney';
+import WhyChooseUs from '../WhyChooseUs/WhyChooseUs';
 
 const HomeLayout = () => {
     return (
@@ -12,8 +14,9 @@ const HomeLayout = () => {
                 <Banner></Banner>
             </div>
             <ClassesSection></ClassesSection>
+            <WhyChooseUs />
+            <StudentJourney />
             <InstructorSection></InstructorSection>
-            {/* TODO: create extra Section */}
         </div>
     );
 };

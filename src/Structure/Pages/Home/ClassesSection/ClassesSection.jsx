@@ -1,34 +1,86 @@
-import { useState, useEffect } from 'react';
-import ClassesCard from './ClassesCard';
+import { useEffect, useState } from "react";
+import ClassesCard from "./ClassesCard";
+import { FaGraduationCap } from "react-icons/fa";
 
 const ClassesSection = () => {
-    const [loadedClasses, setLoadedClasses] = useState([])
-    useEffect(() => {
-        fetch('https://language-mastery-server-chi.vercel.app/classes')
-            .then(res => res.json())
-            .then(data => setLoadedClasses(data))
-    }, [])
+    const [loadedClasses, setLoadedClasses] = useState([]);
     const [classes, setClasses] = useState([]);
-    const sortedClasses = loadedClasses.sort((a, b) => {
-        return b.total_student - a.total_student;
-    })
+
     useEffect(() => {
-        setClasses(sortedClasses.slice(0, 6));
-    }, [sortedClasses])
+        fetch("http://localhost:5000/classes")
+            .then((res) => res.json())
+            .then((data) => {
+                const sorted = data.sort(
+                    (a, b) => b.total_student - a.total_student
+                );
+
+                setLoadedClasses(sorted);
+                setClasses(sorted.slice(0, 6));
+            });
+    }, []);
+
     return (
-        <div className='mt-16 md:mt-40'>
-            <div>
-                <h1 className='text-3xl md:text-4xl font-bold text-center mb-16'>POPULAR CLASSES</h1>
-                {/* TODO: create bottom line */}
-            </div>
-            <div className='flex justify-center'>
-                <div className='grid grid-cols-1 gap-10 md:grid-cols-3'>
-                    {
-                        classes.map(singleClass => <ClassesCard key={singleClass._id} singleClass={singleClass}></ClassesCard>)
-                    }
+        <section className="relative mt-28 overflow-hidden">
+
+            {/* Background Glow */}
+            <div className="absolute left-0 top-0 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl"></div>
+
+            <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl"></div>
+
+            <div className="relative">
+
+                {/* Heading */}
+
+                <div className="mb-20 text-center">
+
+                    <span className="inline-flex items-center gap-3 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-6 py-2 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
+
+                        <FaGraduationCap />
+
+                        Popular Courses
+
+                    </span>
+
+                    <h2 className="mt-6 text-4xl font-black text-white md:text-5xl">
+
+                        Learn The World's
+
+                        <span className="bg-gradient-to-r from-cyan-300 to-yellow-500 bg-clip-text text-transparent">
+
+                            {" "}Top Languages
+
+                        </span>
+
+                    </h2>
+
+                    <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-400">
+
+                        Choose from our most popular language courses taught by
+                        experienced instructors. Build confidence through live
+                        classes, practical lessons and interactive learning.
+
+                    </p>
+
                 </div>
+
+                {/* Cards */}
+
+                <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+
+                    {classes.map((singleClass) => (
+
+                        <ClassesCard
+                            key={singleClass._id}
+                            singleClass={singleClass}
+                        />
+
+                    ))}
+
+                </div>
+
             </div>
-        </div>
+
+        </section>
     );
 };
 

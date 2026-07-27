@@ -1,93 +1,291 @@
-import { useContext, useState } from 'react';
+import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaGoogle } from "react-icons/fa";
-import { GrFormViewHide, GrFormView } from "react-icons/gr";
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../../../Providers/AuthProvider';
+import {
+    FaGoogle,
+    FaGraduationCap,
+    FaEnvelope,
+    FaLock,
+} from "react-icons/fa";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { AuthContext } from "../../../Providers/AuthProvider";
 
 const Login = () => {
+
     const { register, handleSubmit, formState: { errors } } = useForm();
+
     const { signIn, googleLogin } = useContext(AuthContext);
-    const [show, setShow] = useState(false);
-    const [type, setType] = useState('password');
+
+    const [showPassword, setShowPassword] = useState(false);
+
     const navigate = useNavigate();
+
     const location = useLocation();
-    const from = location.state?.from?.pathname || '/';
-    const onSubmit = data => {
+
+    const from = location.state?.from?.pathname || "/";
+
+    const onSubmit = (data) => {
+
         signIn(data.email, data.password)
             .then(() => {
-                navigate('/')
-            })
-            .catch()
-    };
-    const handleGoogle = () => {
-        googleLogin()
-            .then((result) => {
-                console.log(result);
-                if (result._tokenResponse.isNewUser) {
-                    const { displayName, email } = result.user;
-                    const user = { name: displayName, email, type: 'student' }
-                    fetch('https://language-mastery-server-chi.vercel.app/users', {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        body: JSON.stringify(user)
-                    })
-                }
                 navigate(from, { replace: true });
             })
-            .catch()
-    }
-    const passwordToggle = () => {
-        setShow(!show);
-        if (type == 'password') {
-            setType('text');
-        }
-        else if (type == 'text') {
-            setType('password')
-        }
-    }
+            .catch((err) => console.log(err));
+
+    };
+
+    const handleGoogle = () => {
+
+        googleLogin()
+            .then((result) => {
+
+                if (result._tokenResponse.isNewUser) {
+
+                    const { displayName, email } = result.user;
+
+                    const user = {
+                        name: displayName,
+                        email,
+                        type: "student",
+                    };
+
+                    fetch("http://localhost:5000/users", {
+                        method: "POST",
+                        headers: {
+                            "content-type": "application/json",
+                        },
+                        body: JSON.stringify(user),
+                    });
+
+                }
+
+                navigate(from, { replace: true });
+
+            })
+            .catch(console.log);
+
+    };
+
     return (
-        <div className='my-20'>
-            <div className='flex justify-center font-bold text-4xl mb-10'>
-                <h1>Login</h1>
+
+        <section className="relative overflow-hidden py-24">
+
+            {/* Background */}
+
+            <div className="absolute inset-0">
+
+                <div className="absolute left-0 top-0 h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl"></div>
+
+                <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-teal-500/10 blur-3xl"></div>
+
             </div>
-            <div className="hero">
-                <div className="card w-full max-w-lg shadow-2xl bg-base-100">
-                    <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Email</span>
-                            </label>
-                            <input type="email" {...register("email", { required: true })} placeholder="email" className="input input-bordered" />
-                            {errors.email && <span className="text-red-600 mt-2">This field is required</span>}
-                        </div>
-                        <div className="form-control relative">
-                            <label className="label">
-                                <span className="label-text">Password</span>
-                            </label>
-                            <input type={type} placeholder="password" {...register("password", { required: true })} className='input input-bordered' />
-                            <div onClick={passwordToggle} className='text-2xl absolute right-2 bottom-3'>
-                                {
-                                    show ? <GrFormView></GrFormView> : <GrFormViewHide></GrFormViewHide>
-                                }
+
+            <div className="relative mx-auto max-w-6xl px-6">
+
+                <div className="grid items-center gap-16 lg:grid-cols-2">
+                    {/* Left Side */}
+
+                    <div>
+
+                        <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-2 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
+                            Welcome Back
+                        </span>
+
+                        <h1 className="mt-8 text-5xl font-black leading-tight text-white">
+
+                            Continue Your
+
+                            <span className="bg-gradient-to-r from-cyan-300 to-teal-400 bg-clip-text text-transparent">
+                                {" "}Language Journey
+                            </span>
+
+                        </h1>
+
+                        <p className="mt-8 max-w-xl text-lg leading-8 text-slate-400">
+
+                            Log in to access your enrolled classes, continue
+                            learning, track your progress, and connect with
+                            expert instructors from around the world.
+
+                        </p>
+
+                        <div className="mt-12 flex items-center gap-5">
+
+                            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 to-teal-500 text-2xl text-slate-950 shadow-xl">
+
+                                <FaGraduationCap />
+
                             </div>
-                            {errors.password && <span className="text-red-600 mt-2">This field is required</span>}
+
+                            <div>
+
+                                <h3 className="text-xl font-bold text-white">
+                                    Learn Anytime
+                                </h3>
+
+                                <p className="mt-1 text-slate-400">
+                                    Professional courses with live instructors.
+                                </p>
+
+                            </div>
+
                         </div>
-                        <div className="form-control mt-6">
-                            <input type='submit' value={"Login"} className="btn bg-[#1BABAF] hover:bg-[#E5B14C]" />
-                        </div>
-                    </form>
-                    <p className='ml-10'><small>New Here ? <Link className='text-[#1BABAF]' to="/signUp">Sign up</Link></small></p>
-                    <div className='mx-auto my-5'>
-                        <button onClick={handleGoogle} className="btn btn-circle btn-outline text-[#1BABAF] hover:bg-[#1BABAF] hover:border-[#1BABAF]">
-                            <FaGoogle width={10}></FaGoogle>
-                        </button>
+
                     </div>
+
+
+
+                    {/* Login Card */}
+
+                    <div className="rounded-[32px] border border-slate-800 bg-slate-950/90 p-8 shadow-2xl backdrop-blur-xl md:p-10">
+
+                        <h2 className="mb-2 text-center text-3xl font-black text-white">
+
+                            Sign In
+
+                        </h2>
+
+                        <p className="mb-10 text-center text-slate-400">
+
+                            Login to continue learning.
+
+                        </p>
+
+                        <form
+                            onSubmit={handleSubmit(onSubmit)}
+                            className="space-y-6"
+                        >
+                            {/* Email */}
+
+                            <div>
+
+                                <label className="mb-3 block font-semibold text-slate-300">
+                                    Email Address
+                                </label>
+
+                                <div className="relative">
+
+                                    <FaEnvelope className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-400" />
+
+                                    <input
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        {...register("email", { required: true })}
+                                        className="h-14 w-full rounded-xl border border-slate-700 bg-slate-900 pl-14 pr-5 text-white outline-none transition focus:border-cyan-400"
+                                    />
+
+                                </div>
+
+                                {errors.email && (
+                                    <p className="mt-2 text-sm text-red-400">
+                                        Email is required.
+                                    </p>
+                                )}
+
+                            </div>
+
+
+                            {/* Password */}
+
+                            <div>
+
+                                <label className="mb-3 block font-semibold text-slate-300">
+                                    Password
+                                </label>
+
+                                <div className="relative">
+
+                                    <FaLock className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-400" />
+
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Enter your password"
+                                        {...register("password", { required: true })}
+                                        className="h-14 w-full rounded-xl border border-slate-700 bg-slate-900 pl-14 pr-14 text-white outline-none transition focus:border-cyan-400"
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-xl text-slate-400 transition hover:text-cyan-300"
+                                    >
+                                        {showPassword ? (
+                                            <FiEye />
+                                        ) : (
+                                            <FiEyeOff />
+                                        )}
+                                    </button>
+
+                                </div>
+
+                                {errors.password && (
+                                    <p className="mt-2 text-sm text-red-400">
+                                        Password is required.
+                                    </p>
+                                )}
+
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="w-full rounded-xl bg-gradient-to-r from-cyan-400 to-teal-500 py-4 text-lg font-bold text-slate-950 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/30"
+                            >
+                                Login
+                            </button>
+                        </form>
+
+                        {/* Divider */}
+
+                        <div className="my-8 flex items-center gap-4">
+
+                            <div className="h-px flex-1 bg-slate-800"></div>
+
+                            <span className="text-sm font-medium uppercase tracking-[0.25em] text-slate-500">
+                                Or Continue With
+                            </span>
+
+                            <div className="h-px flex-1 bg-slate-800"></div>
+
+                        </div>
+
+                        {/* Google */}
+
+                        <button
+                            onClick={handleGoogle}
+                            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-900 py-4 font-semibold text-white transition duration-300 hover:border-cyan-400 hover:bg-slate-800"
+                        >
+
+                            <FaGoogle className="text-xl text-cyan-300" />
+
+                            Continue with Google
+
+                        </button>
+
+                        {/* Register */}
+
+                        <p className="mt-8 text-center text-slate-400">
+
+                            Don't have an account?
+
+                            <Link
+                                to="/signUp"
+                                className="ml-2 font-bold text-cyan-300 transition hover:text-cyan-200"
+                            >
+                                Create Account
+                            </Link>
+
+                        </p>
+
+                    </div>
+
                 </div>
+
             </div>
-        </div>
+
+        </section>
+
     );
 };
 

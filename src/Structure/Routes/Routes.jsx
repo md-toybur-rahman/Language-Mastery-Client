@@ -44,10 +44,6 @@ const router = createBrowserRouter([
         path: '/signUp',
         element: <SignUp></SignUp>
       },
-      {
-        path: '/data',
-        element: <DataEntry></DataEntry>
-      },
     ],
     errorElement: <ErrorPage></ErrorPage>
   },
@@ -67,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: 'add_class',
         element: <AddedClass></AddedClass>
+      },
+      {
+        path: 'data',
+        element: <DataEntry></DataEntry>
       },
       {
         path: 'payment',

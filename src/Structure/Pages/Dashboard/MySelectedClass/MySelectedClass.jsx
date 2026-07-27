@@ -8,6 +8,7 @@ import { Slide } from "react-awesome-reveal";
 const MySelectedClass = () => {
     const [cart, refetch] = useCart();
     console.log(cart);
+    console.log(cart);
     const handleDelete = (id) => {
         Swal.fire({
             title: 'Are you sure?',
@@ -19,7 +20,7 @@ const MySelectedClass = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`https://language-mastery-server-chi.vercel.app/cart/${id}`, {
+                fetch(`http://localhost:5000/cart/${id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())
@@ -38,13 +39,13 @@ const MySelectedClass = () => {
 
     }
     const handlePay = (item) => {
-        fetch('https://language-mastery-server-chi.vercel.app/classes')
+        fetch('http://localhost:5000/classes')
             .then(res => res.json())
             .then(data => {
                 const query = data.find(singleClass => singleClass._id === item.class_id);
                 console.log(query);
                 const newValue = { available_seats: (query.available_seats - 1), total_student: parseInt(query.total_student) + 1 }
-                fetch(`https://language-mastery-server-chi.vercel.app/classes/${item.class_id}`, {
+                fetch(`http://localhost:5000/classes/${item.class_id}`, {
                     method: 'PUT',
                     headers: {
                         'content-type': 'application/json'
@@ -56,7 +57,7 @@ const MySelectedClass = () => {
                     .then(data => {
                         console.log(data);
                         if (data.modifiedCount) {
-                            fetch(`https://language-mastery-server-chi.vercel.app/cart/${item._id}`, {
+                            fetch(`http://localhost:5000/cart/${item._id}`, {
                                 method: "DELETE"
                             })
                                 .then(res => res.json())
@@ -95,7 +96,7 @@ const MySelectedClass = () => {
                     }
                     <tbody>
                         {
-                            cart.map((myClass, index) => <tr key={myClass._id}>
+                            cart?.map((myClass, index) => <tr key={myClass._id}>
                                 <th>
                                     {index + 1}
                                 </th>
