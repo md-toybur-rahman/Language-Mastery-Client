@@ -1,73 +1,236 @@
-// import React from 'react';
-
-import { Link, Outlet } from "react-router-dom";
-import Navbar from "../Pages/Dashboard/Navbar/Navbar";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import {
+    FaHome,
+    FaUsers,
+    FaUserGraduate,
+    FaBookOpen,
+    FaChalkboardTeacher,
+    FaPlusCircle,
+    FaBars,
+} from "react-icons/fa";
 import Footer from "../Shared/Footer/Footer";
 import useCart from "../../hooks/useCart";
 import useAdmin from "../../hooks/useAdmin";
 import useInstructor from "../../hooks/useInstructor";
-
-
-
-
+import Navbar from "../Shared/Navbar/Navbar";
 
 const Dashboard = () => {
     const [cart] = useCart();
     const [isAdmin] = useAdmin();
     const [isInstructor] = useInstructor();
+
+    const menuClass = ({ isActive }) =>
+        `flex items-center gap-4 rounded-2xl px-5 py-4 font-semibold transition-all duration-300 ${isActive
+            ? "bg-gradient-to-r from-cyan-300 to-amber-400 text-slate-950 shadow-lg shadow-cyan-500/20"
+            : "text-slate-300 hover:bg-slate-800 hover:text-cyan-300 hover:translate-x-2"
+        }`;
+
     return (
-        // <div>
-        //     <Navbar></Navbar>
-        //     <Outlet></Outlet>
-        //     <Footer></Footer>
-        // </div>
-        <div className='max-w-[1440px] mx-auto px-16'>
-            <Navbar></Navbar>
-            <div className="drawer lg:drawer-open">
-                <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content flex flex-col items-center justify-center">
-                    <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+        <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
 
-                    <Outlet></Outlet>
+            {/* Background Glow */}
+
+            <div className="absolute left-20 top-20 h-72 w-72 rounded-full bg-cyan-500/10 blur-[140px]"></div>
+            <div className="absolute right-20 bottom-20 h-72 w-72 rounded-full bg-teal-500/10 blur-[140px]"></div>
+
+            <div className="relative max-w-[1600px] mx-auto">
+
+                <Navbar />
+
+                <div className="drawer lg:drawer-open">
+
+                    <input
+                        id="dashboard-drawer"
+                        type="checkbox"
+                        className="drawer-toggle"
+                    />
+
+                    {/* Content */}
+
+                    <div className="drawer-content">
+
+                        {/* Mobile Button */}
+
+                        <div className="p-5 lg:hidden">
+
+                            <label
+                                htmlFor="dashboard-drawer"
+                                className="btn border border-slate-700 bg-slate-900 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950"
+                            >
+                                <FaBars />
+                                Dashboard Menu
+                            </label>
+
+                        </div>
+
+                        <div className="p-6 lg:p-10">
+
+                            <div className="mb-8 rounded-3xl border border-slate-800 bg-slate-900/60 p-8 backdrop-blur-xl">
+
+                                <h1 className="text-4xl font-black text-white">
+                                    Dashboard
+                                </h1>
+
+                                <p className="mt-3 text-slate-400">
+                                    Manage your courses, students and account from one place.
+                                </p>
+
+                            </div>
+
+                            <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-xl min-h-[650px]">
+
+                                <Outlet />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {/* Sidebar */}
+
+                    <div className="drawer-side z-50">
+
+                        <label
+                            htmlFor="dashboard-drawer"
+                            className="drawer-overlay"
+                        ></label>
+
+                        <aside className="min-h-full w-80 border-r border-slate-800 bg-slate-950/95 backdrop-blur-xl">
+
+                            {/* Navigation */}
+
+                            <div className="space-y-3 p-6">
+
+                                <NavLink
+                                    to="/"
+                                    className={menuClass}
+                                >
+                                    <FaHome />
+                                    Home
+                                </NavLink>
+
+                                {/* Student */}
+
+                                {!isAdmin && !isInstructor && (
+                                    <>
+
+                                        <NavLink
+                                            end
+                                            to="/dashboard"
+                                            className={menuClass}
+                                        >
+                                            <FaBookOpen />
+                                            My Selected Classes
+
+                                            <span className="ml-auto rounded-full bg-cyan-400 px-3 py-1 text-sm font-bold text-slate-950">
+                                                {cart.length}
+                                            </span>
+
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/dashboard/payment"
+                                            className={menuClass}
+                                        >
+                                            <FaUserGraduate />
+                                            My Enrolled Classes
+                                        </NavLink>
+
+                                    </>
+                                )}
+
+                                {/* Admin */}
+
+                                {isAdmin && (
+                                    <>
+
+                                        <NavLink
+                                            end
+                                            to="/dashboard"
+                                            className={menuClass}
+                                        >
+                                            <FaUsers />
+                                            Manage Users
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/dashboard/manage_classes"
+                                            className={menuClass}
+                                        >
+                                            <FaBookOpen />
+                                            Manage Classes
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/dashboard/add_instructor"
+                                            className={menuClass}
+                                        >
+                                            <FaChalkboardTeacher />
+                                            Add Instructor
+                                        </NavLink>
+
+                                    </>
+                                )}
+
+                                {/* Instructor */}
+
+                                {isInstructor && (
+                                    <>
+
+                                        <NavLink
+                                            end
+                                            to="/dashboard"
+                                            className={menuClass}
+                                        >
+                                            <FaBookOpen />
+                                            My Classes
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/dashboard/add_class"
+                                            className={menuClass}
+                                        >
+                                            <FaPlusCircle />
+                                            Add New Class
+                                        </NavLink>
+
+                                    </>
+                                )}
+
+                            </div>
+
+                            {/* Bottom */}
+
+                            <div className="absolute bottom-0 w-full border-t border-slate-800 p-6">
+
+                                <div className="rounded-2xl bg-gradient-to-r from-cyan-500/15 to-teal-500/15 p-5">
+
+                                    <h3 className="font-bold text-cyan-300">
+                                        Language Mastery
+                                    </h3>
+
+                                    <p className="mt-2 text-sm leading-6 text-slate-400">
+                                        Learn languages with expert instructors and
+                                        build your future with confidence.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </aside>
+
+                    </div>
 
                 </div>
-                <div className="drawer-side">
-                    <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-                    {
-                        !isAdmin && !isInstructor ?
-                            <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="/">HOME</Link>
-                                <Link className='flex items-center bg-[#1BABAF] py-4 justify-center font-bold text-md mb-5 text-white' to="/dashboard">MY SELECTED CLASSES <span className='text-lg'> +{cart.length}</span></Link>
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="payment">MY ENROLLED CLASSES</Link>
-                            </ul>:
-                            ''
-                    }
-                    {
-                        isAdmin ?
-                            <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="/">HOME</Link>
-                                <Link className='flex items-center bg-[#1BABAF] py-4 justify-center font-bold text-md mb-5 text-white' to="/dashboard">MANAGE USERS</Link>
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="manage_classes">MANAGE CLASSES</Link>
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="data">ADDED A INSTRUCTOR</Link>
-                            </ul>:
-                            ''
-                    }
-                    {
-                        isInstructor ?
-                            <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="/">HOME</Link>
-                                <Link className='flex items-center bg-[#1BABAF] py-4 justify-center font-bold text-md mb-5 text-white' to="/dashboard">SHOW ALL CLASSES<span className='text-lg'> +{cart.length}</span></Link>
-                                <Link className="bg-[#1BABAF] py-4 text-center font-bold text-md mb-5 text-white" to="add_class">ADDED A CLASS</Link>
-                            </ul>:
-                            ''
-                    }
 
-                </div>
+                <Footer />
+
             </div>
-            <Footer></Footer>
-        </div>
-    )
 
+        </div>
+    );
 };
 
 export default Dashboard;

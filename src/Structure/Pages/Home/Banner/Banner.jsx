@@ -64,7 +64,7 @@ const Banner = () => {
 
                         <div className="absolute inset-0 flex items-center">
 
-                            <div className="mx-auto flex max-w-7xl px-8">
+                            <div className="mx-auto flex max-w-7xl px-3 md:px-8">
 
                                 <div className="max-w-3xl">
 
@@ -72,15 +72,15 @@ const Banner = () => {
                                         Premium Language Learning
                                     </span>
 
-                                    <h1 className="mt-8 text-5xl font-black leading-tight text-white md:text-7xl">
+                                    <h1 className="mt-8 text-3xl font-black leading-tight text-white md:text-7xl">
                                         {slide.title}
                                     </h1>
 
-                                    <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-300">
+                                    <p className="mt-3 md:mt-8 max-w-2xl text-lg md:leading-9 text-slate-300">
                                         {slide.subtitle}
                                     </p>
 
-                                    <div className="mt-12 flex flex-wrap gap-5">
+                                    <div className="m-5 md:mt-12 flex flex-wrap gap-5">
 
                                         <Link
                                             to="/classes"

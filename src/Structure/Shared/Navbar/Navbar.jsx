@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 import {
@@ -6,6 +6,7 @@ import {
     SlScreenSmartphone,
     SlEnvolope,
 } from "react-icons/sl";
+import { FaChevronDown, FaUserShield, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
 
 import {
     FaFacebookF,
@@ -19,9 +20,23 @@ import { MdMenu, MdClose } from "react-icons/md";
 
 import { AuthContext } from "../../../Providers/AuthProvider";
 import useCart from "../../../hooks/useCart";
+import Swal from "sweetalert2";
+import useAxios from "../../../hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
+    const [userData, setUserData] = useState(null);
+    const [axiosSecure] = useAxios();
+
+    const { data: currentUser, isLoading } = useQuery({
+        queryKey: ['user', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users/${user.email}`);
+            await setUserData(res.data);
+        },
+    });
 
     const [cart] = useCart();
     const [menu, setMenu] = useState(false);
@@ -38,6 +53,51 @@ const Navbar = () => {
                 text: error.message
             })
         });
+    };
+
+    const token = localStorage.getItem("access_token");
+
+    const handleRoleChange = async (role) => {
+        try {
+            const res = await fetch(
+                `http://localhost:5000/users/role/${user.email}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "content-type": "application/json",
+                        authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ role }),
+                }
+            );
+
+            const data = await res.json();
+
+            if (data.modifiedCount > 0) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Role Updated",
+                    text: `Your role has been changed to ${role}.`,
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+
+                window.location.reload();
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "No Changes",
+                    text: "Role is already assigned or user not found.",
+                });
+            }
+        } catch (error) {
+            console.error(error);
+
+            Swal.fire({
+                icon: "error",
+                title: "Something went wrong",
+            });
+        }
     };
 
     const navLink =
@@ -88,6 +148,56 @@ const Navbar = () => {
                     {cart.length}
                 </span>
             </NavLink>
+
+            {/* Role Dropdown */}
+            <div className="dropdown dropdown-end">
+                <label
+                    tabIndex={0}
+                    className={`${navLink} flex cursor-pointer items-center gap-2`}
+                >
+                    Change Role
+                    <FaChevronDown className="text-xs" />
+                    <div className="flex items-center justify-center gap-2">
+                        <span className="h-3 w-3 rounded-full bg-green-500"></span>
+                        <p> {userData?.type.slice(0,1).toUpperCase()}{ userData?.type.slice(1)}</p>
+                    </div>
+                </label>
+
+                <ul
+                    tabIndex={0}
+                    className="menu dropdown-content z-[999] mt-4 w-56 rounded-2xl border text-slate-900 font-semibold border-slate-500 bg-gradient-to-r from-cyan-300 to-amber-400 p-2 shadow-2xl"
+                >
+                    <li>
+                        <button
+                            onClick={() => handleRoleChange("admin")}
+                            className="flex items-center gap-3 rounded-xl py-3"
+                        >
+                            <FaUserShield />
+                            Admin
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
+                            onClick={() => handleRoleChange("instructor")}
+                            className="flex items-center gap-3 rounded-xl py-3"
+                        >
+                            <FaChalkboardTeacher />
+                            Instructor
+                        </button>
+                    </li>
+
+                    <li>
+                        <button
+                            onClick={() => handleRoleChange("student")}
+                            className="flex items-center gap-3 rounded-xl py-3"
+                        >
+                            <FaUserGraduate />
+                            Student
+                        </button>
+                    </li>
+                </ul>
+            </div>
         </>
     );
 
@@ -98,7 +208,7 @@ const Navbar = () => {
 
             <div className="hidden border-b border-slate-800 bg-slate-950/90 lg:block">
 
-                <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+                <div className="mx-auto flex items-center justify-between px-6 py-3">
 
                     <div className="flex items-center gap-8 text-sm text-slate-400">
 
@@ -159,7 +269,7 @@ const Navbar = () => {
 
             <nav className="border-b border-slate-800 bg-slate-950/90">
 
-                <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+                <div className="mx-auto flex h-20 items-center justify-between px-6">
 
                     {/* Mobile Menu */}
 
@@ -242,7 +352,7 @@ const Navbar = () => {
                     : "max-h-0"
                     }`}
             >
-                <div className="mx-auto flex max-w-7xl flex-col px-6 py-6">
+                <div className="mx-auto flex flex-col px-6 py-6">
 
                     <div className="flex flex-col gap-6 text-lg">
                         {navItems}

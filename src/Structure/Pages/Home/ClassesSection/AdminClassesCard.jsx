@@ -1,63 +1,177 @@
 import { useContext } from "react";
-import { AuthContext } from "../../../../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import {
+    FaCheckCircle,
+    FaChalkboardTeacher,
+    FaGlobeAsia,
+    FaUsers,
+    FaMoneyBillWave,
+    FaChair,
+} from "react-icons/fa";
+import { AuthContext } from "../../../../Providers/AuthProvider";
 
+const AdminClassesCard = ({ singleClass, refetch }) => {
 
-
-const AdminClassesCard = ({ singleClass }) => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
-    const { language_name, country_name, instructor_name, total_student, available_seats, photo, price } = singleClass;
-    const handleApprove = (singleClass) => {
+
+    const {
+        language_name,
+        country_name,
+        instructor_name,
+        total_student,
+        available_seats,
+        total_seats,
+        photo,
+        price,
+        _id,
+        email
+    } = singleClass;
+
+    const handleApprove = () => {
+
         if (!user) {
-            navigate('/login')
+            return navigate("/login");
         }
-        const { language_name, country_name, price, instructor_name, total_student, available_seats, total_seats, photo, _id } = singleClass;
-        const approveItem = { language_name, country_name, price, instructor_name, total_student, available_seats, total_seats, photo };
-        fetch('http://localhost:5000/classes', {
-            method: 'POST',
+
+        const approveItem = {
+            language_name,
+            country_name,
+            instructor_name,
+            total_student,
+            available_seats,
+            total_seats,
+            photo,
+            price,
+            email
+        };
+
+        fetch("http://localhost:5000/classes", {
+            method: "POST",
             headers: {
-                'content-type': 'application/json'
+                "content-type": "application/json",
             },
             body: JSON.stringify(approveItem),
         })
-            .then(res => res.json())
+            .then((res) => res.json())
             .then(() => {
+
                 fetch(`http://localhost:5000/instructors_requirements/${_id}`, {
-                    method: 'DELETE'
+                    method: "DELETE",
                 })
-                    .then(res => res.json())
+                    .then((res) => res.json())
                     .then(() => {
+
+                        refetch();
+
                         Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Item Added Successfully',
+                            icon: "success",
+                            title: "Class Approved Successfully",
+                            background: "#0f172a",
+                            color: "#fff",
+                            timer: 1700,
                             showConfirmButton: false,
-                            timer: 1500
-                        })
-                    })
-            })
-    }
+                        });
+
+                    });
+
+            });
+    };
+
     return (
-        <div>
-            <div className="card w-96 bg-base-100 shadow-xl">
-                <figure className="relative">
-                    <img className='w-[100px] h-[80px] pt-5 absolute top-0 left-3' src={photo} alt="" />
-                    <img src="https://i.ibb.co/ZV9VFyP/kenny-eliason-1-a-A2-Fadydc-unsplash-2.jpg" alt="" />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title">{language_name} ({country_name})</h2>
-                    <p><span className="font-semibold">Instructor Name:</span> {instructor_name}</p>
-                    <p><span className="font-semibold">Number Of Student:</span>  {total_student}</p>
-                    <p><span className="font-semibold">Available Seats:</span>  {available_seats}</p>
-                    <p><span className="font-semibold">Price:</span>  {price} Tk</p>
-                    <div className="card-actions justify-start mt-5">
-                        <button disabled={available_seats == 0 ? true : false} onClick={() => { handleApprove(singleClass) }} className="btn bg-[#1BABAF] text-white hover:text-black">Approve</button>
-                    </div>
-                </div>
+
+        <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-400/40">
+
+            <div className="relative">
+
+                <img
+                    src="https://i.ibb.co/ZV9VFyP/kenny-eliason-1-a-A2-Fadydc-unsplash-2.jpg"
+                    className="h-56 w-full object-cover"
+                    alt=""
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+
+                <img
+                    src={photo}
+                    alt=""
+                    className="absolute left-6 top-6 h-20 w-20 rounded-2xl border-2 border-slate-700 bg-white object-cover p-1 shadow-xl"
+                />
+
             </div>
+
+            <div className="space-y-5 p-6">
+
+                <div>
+
+                    <h2 className="text-2xl font-bold text-white">
+
+                        {language_name}
+
+                    </h2>
+
+                    <p className="mt-1 flex items-center gap-2 text-amber-400">
+
+                        <FaGlobeAsia />
+
+                        {country_name}
+
+                    </p>
+
+                </div>
+
+                <div className="space-y-3 text-slate-300">
+
+                    <p className="flex items-center gap-3">
+
+                        <FaChalkboardTeacher className="text-amber-400" />
+
+                        {instructor_name}
+
+                    </p>
+
+                    <p className="flex items-center gap-3">
+
+                        <FaUsers className="text-amber-400" />
+
+                        {total_student} Students
+
+                    </p>
+
+                    <p className="flex items-center gap-3">
+
+                        <FaChair className="text-amber-400" />
+
+                        {available_seats} Seats Left
+
+                    </p>
+
+                    <p className="flex items-center gap-3">
+
+                        <FaMoneyBillWave className="text-amber-400" />
+
+                        ৳ {price}
+
+                    </p>
+
+                </div>
+
+                <button
+                    onClick={handleApprove}
+                    className="flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-cyan-300 to-amber-400 py-3 font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02]"
+                >
+
+                    <FaCheckCircle />
+
+                    Approve Class
+
+                </button>
+
+            </div>
+
         </div>
+
     );
 };
 
