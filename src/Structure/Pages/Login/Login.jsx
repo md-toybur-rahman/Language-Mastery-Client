@@ -33,7 +33,7 @@ const Login = () => {
                     email: result.user.email
                 }
 
-                const res = await fetch("http://localhost:5000/jwt", {
+                const res = await fetch("https://language-mastery.onrender.com/jwt", {
                     method: "POST",
                     headers: {
                         "content-type": "application/json"
@@ -66,7 +66,7 @@ const Login = () => {
                     type: "student",
                 };
 
-                await fetch("http://localhost:5000/users", {
+                await fetch("https://language-mastery.onrender.com/users", {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
@@ -80,7 +80,7 @@ const Login = () => {
                 email: result.user.email,
             };
 
-            const jwtRes = await fetch("http://localhost:5000/jwt", {
+            const jwtRes = await fetch("https://language-mastery.onrender.com/jwt", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",

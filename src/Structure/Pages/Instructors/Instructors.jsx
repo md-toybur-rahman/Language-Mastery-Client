@@ -8,7 +8,7 @@ import useHelmet from "../../../hooks/useHelmet";
 const Instructors = () => {
     const [loadedInstructors, setLoadedInstructors] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/instructors')
+        fetch('https://language-mastery.onrender.com/instructors')
             .then(res => res.json())
             .then(data => setLoadedInstructors(data))
     }, [])

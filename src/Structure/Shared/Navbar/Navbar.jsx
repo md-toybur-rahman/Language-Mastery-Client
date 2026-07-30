@@ -65,7 +65,7 @@ const Navbar = () => {
     const handleRoleChange = async (role) => {
         try {
             const res = await fetch(
-                `http://localhost:5000/users/role/${user.email}`,
+                `https://language-mastery.onrender.com/users/role/${user.email}`,
                 {
                     method: "PATCH",
                     headers: {

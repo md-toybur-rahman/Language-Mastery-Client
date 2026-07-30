@@ -42,7 +42,7 @@ const AuthProvider = ({ children }) => {
             setLoading(false)
             if (currentUser) {
                 const user = { email: currentUser.email }
-                fetch('http://localhost:5000/jwt', {
+                fetch('https://language-mastery.onrender.com/jwt', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'

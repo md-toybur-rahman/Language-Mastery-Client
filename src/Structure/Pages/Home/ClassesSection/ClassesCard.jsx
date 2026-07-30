@@ -88,7 +88,7 @@ const ClassesCard = ({ singleClass }) => {
             user_email: user.email,
         };
 
-        fetch("http://localhost:5000/cart", {
+        fetch("https://language-mastery.onrender.com/cart", {
             method: "POST",
             headers: {
                 "content-type": "application/json",

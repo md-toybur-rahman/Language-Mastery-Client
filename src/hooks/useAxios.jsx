@@ -9,7 +9,7 @@ const useAxios = () => {
     const navigate = useNavigate();
 
     const axiosSecure = axios.create({
-        baseURL: 'http://localhost:5000',
+        baseURL: 'https://language-mastery.onrender.com',
     });
 
     useEffect(() => {

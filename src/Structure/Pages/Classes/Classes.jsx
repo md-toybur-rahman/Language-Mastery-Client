@@ -8,7 +8,7 @@ import useHelmet from '../../../hooks/useHelmet';
 const Classes = () => {
     const [loadedClasses, setLoadedClasses] = useState([])
     useEffect(() => {
-        fetch('http://localhost:5000/classes')
+        fetch('https://language-mastery.onrender.com/classes')
             .then(res => res.json())
             .then(data => setLoadedClasses(data))
     }, [])

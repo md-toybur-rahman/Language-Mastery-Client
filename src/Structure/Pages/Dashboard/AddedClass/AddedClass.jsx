@@ -83,7 +83,7 @@ const AddedClass = () => {
                 };
 
                 const res = await fetch(
-                    "http://localhost:5000/instructors_requirements",
+                    "https://language-mastery.onrender.com/instructors_requirements",
                     {
                         method: "POST",
                         headers: {

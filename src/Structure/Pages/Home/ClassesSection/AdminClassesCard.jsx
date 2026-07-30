@@ -31,7 +31,7 @@ const AdminClassesCard = ({ singleClass, refetch }) => {
 
     const handleApprove = async () => {
         const res = await fetch(
-            `http://localhost:5000/approve_class/${singleClass._id}`,
+            `https://language-mastery.onrender.com/approve_class/${singleClass._id}`,
             {
                 method: "PATCH",
             }
@@ -64,7 +64,7 @@ const AdminClassesCard = ({ singleClass, refetch }) => {
 
         const res = await fetch(
 
-            `http://localhost:5000/deny_class/${singleClass._id}`,
+            `https://language-mastery.onrender.com/deny_class/${singleClass._id}`,
 
             {
 
@@ -121,7 +121,7 @@ const AdminClassesCard = ({ singleClass, refetch }) => {
 
         const res = await fetch(
 
-            `http://localhost:5000/class_feedback/${singleClass._id}`,
+            `https://language-mastery.onrender.com/class_feedback/${singleClass._id}`,
 
             {
 

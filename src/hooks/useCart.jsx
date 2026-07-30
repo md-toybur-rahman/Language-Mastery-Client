@@ -19,7 +19,7 @@ const useCart = () => {
         queryFn: async () => {
 
             const res = await fetch(
-                `http://localhost:5000/cart?email=${user.email}`,
+                `https://language-mastery.onrender.com/cart?email=${user.email}`,
                 {
                     headers: {
                         authorization: `Bearer ${token}`,

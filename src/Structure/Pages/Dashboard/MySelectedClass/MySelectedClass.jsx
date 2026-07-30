@@ -20,7 +20,7 @@ const MySelectedClass = () => {
             confirmButtonText: "Yes, Remove",
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/cart/${id}`, {
+                fetch(`https://language-mastery.onrender.com/cart/${id}`, {
                     method: "DELETE",
                 })
                     .then((res) => res.json())
@@ -41,7 +41,7 @@ const MySelectedClass = () => {
     };
 
     const handlePay = (item) => {
-        // fetch("http://localhost:5000/classes")
+        // fetch("https://language-mastery.onrender.com/classes")
         //     .then((res) => res.json())
         //     .then((data) => {
         //         const query = data.find(
@@ -53,7 +53,7 @@ const MySelectedClass = () => {
         //             total_student: parseInt(query.total_student) + 1,
         //         };
 
-        //         fetch(`http://localhost:5000/classes/${item.class_id}`, {
+        //         fetch(`https://language-mastery.onrender.com/classes/${item.class_id}`, {
         //             method: "PUT",
         //             headers: {
         //                 "content-type": "application/json",
@@ -63,7 +63,7 @@ const MySelectedClass = () => {
         //             .then((res) => res.json())
         //             .then((data) => {
         //                 if (data.modifiedCount) {
-        //                     fetch(`http://localhost:5000/cart/${item._id}`, {
+        //                     fetch(`https://language-mastery.onrender.com/cart/${item._id}`, {
         //                         method: "DELETE",
         //                     })
         //                         .then((res) => res.json())

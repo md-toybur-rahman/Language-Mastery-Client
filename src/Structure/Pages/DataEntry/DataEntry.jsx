@@ -23,7 +23,7 @@ const DataEntry = () => {
                     const { language_name, country_name, price, instructor_name, total_student, available_seats } = data;
                     // const newItem = { language_name, country_name, price: parseFloat(price), instructor_name, total_student, available_seats, total_seats, photo: imageURL }
                     const newItem = { language_name, country_name, email: price, instructor_name, number_of_students: total_student, taken_total_classes: available_seats, photo: imageURL }
-                    fetch('http://localhost:5000/instructors', {
+                    fetch('https://language-mastery.onrender.com/instructors', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'

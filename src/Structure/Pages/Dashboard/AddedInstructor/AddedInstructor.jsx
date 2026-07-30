@@ -66,7 +66,7 @@ const AddedInstructor = () => {
                 };
 
                 const res = await fetch(
-                    "http://localhost:5000/instructors",
+                    "https://language-mastery.onrender.com/instructors",
                     {
                         method: "POST",
                         headers: {
