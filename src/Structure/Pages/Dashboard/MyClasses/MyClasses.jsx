@@ -6,20 +6,42 @@ import useHelmet from "../../../../hooks/useHelmet";
 import MyClassCard from "./MyClassCard";
 
 const MyClasses = () => {
+    // const { user } = useContext(AuthContext);
+    // const [axiosSecure] = useAxios();
+
+    // const { data: classes = [], isLoading, refetch } = useQuery({
+    //     queryKey: ["my-classes", user?.email],
+    //     enabled: !!user?.email,
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get("/classes");
+    //         return res.data.filter(
+    //             (item) =>
+    //                 item.instructor_email === user?.email ||
+    //                 item.email === user?.email
+    //         );
+    //     },
+    // });
+
     const { user } = useContext(AuthContext);
+
     const [axiosSecure] = useAxios();
 
-    const { data: classes = [], isLoading, refetch } = useQuery({
-        queryKey: ["my-classes", user?.email],
+    const { data: classes = [], isLoading } = useQuery({
+
+        queryKey: ["myClasses", user?.email],
+
         enabled: !!user?.email,
+
         queryFn: async () => {
-            const res = await axiosSecure.get("/classes");
-            return res.data.filter(
-                (item) =>
-                    item.instructor_email === user?.email ||
-                    item.email === user?.email
+
+            const res = await axiosSecure.get(
+                `/my_classes?email=${user.email}`
             );
-        },
+
+            return res.data;
+
+        }
+
     });
 
     if (isLoading) {
@@ -60,7 +82,6 @@ const MyClasses = () => {
                         <MyClassCard
                             key={singleClass._id}
                             singleClass={singleClass}
-                            refetch={refetch}
                         />
                     ))}
                 </div>

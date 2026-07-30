@@ -17,6 +17,9 @@ import ManageClasses from "../Pages/Dashboard/ManageClasses/ManageClasses";
 import AdminRoute from "./AdminRoute";
 import AddedClass from "../Pages/Dashboard/AddedClass/AddedClass";
 import AddedInstructor from "../Pages/Dashboard/AddedInstructor/AddedInstructor";
+import Payment from "../Pages/Dashboard/Payment/Payment";
+import MyEnrolledClasses from "../Pages/Dashboard/MyEnrolledClasses/MyEnrolledClasses";
+import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 
 
 
@@ -70,12 +73,16 @@ const router = createBrowserRouter([
         element: <AddedClass></AddedClass>
       },
       {
-        path: 'data',
-        element: <DataEntry></DataEntry>
+        path: "payment/:id",
+        element: <Payment />
       },
       {
-        path: 'payment',
-        element: <h1 className="text-4xl">my payment</h1>
+        path: "payment_history",
+        element: <PaymentHistory />
+      },
+      {
+        path: 'enrolled_classes',
+        element: <MyEnrolledClasses />
       }
     ],
     errorElement: <ErrorPage></ErrorPage>

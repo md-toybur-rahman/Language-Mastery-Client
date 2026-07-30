@@ -77,7 +77,9 @@ const AddedClass = () => {
                     total_seats: Number(total_seats),
                     price: Number(price),
                     photo: imageURL,
-                    email
+                    email,
+                    status: "pending",
+                    feedback: ""
                 };
 
                 const res = await fetch(

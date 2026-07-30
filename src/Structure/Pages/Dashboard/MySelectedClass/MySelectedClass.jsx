@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import { Slide } from "react-awesome-reveal";
 import { FaTrashAlt, FaCreditCard } from "react-icons/fa";
 import useCart from "../../../../hooks/useCart";
+import { Link } from "react-router-dom";
 
 const MySelectedClass = () => {
     const [cart, refetch] = useCart();
@@ -40,46 +41,46 @@ const MySelectedClass = () => {
     };
 
     const handlePay = (item) => {
-        fetch("http://localhost:5000/classes")
-            .then((res) => res.json())
-            .then((data) => {
-                const query = data.find(
-                    (singleClass) => singleClass._id === item.class_id
-                );
+        // fetch("http://localhost:5000/classes")
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         const query = data.find(
+        //             (singleClass) => singleClass._id === item.class_id
+        //         );
 
-                const newValue = {
-                    available_seats: query.available_seats - 1,
-                    total_student: parseInt(query.total_student) + 1,
-                };
+        //         const newValue = {
+        //             available_seats: query.available_seats - 1,
+        //             total_student: parseInt(query.total_student) + 1,
+        //         };
 
-                fetch(`http://localhost:5000/classes/${item.class_id}`, {
-                    method: "PUT",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(newValue),
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        if (data.modifiedCount) {
-                            fetch(`http://localhost:5000/cart/${item._id}`, {
-                                method: "DELETE",
-                            })
-                                .then((res) => res.json())
-                                .then(() => {
+        //         fetch(`http://localhost:5000/classes/${item.class_id}`, {
+        //             method: "PUT",
+        //             headers: {
+        //                 "content-type": "application/json",
+        //             },
+        //             body: JSON.stringify(newValue),
+        //         })
+        //             .then((res) => res.json())
+        //             .then((data) => {
+        //                 if (data.modifiedCount) {
+        //                     fetch(`http://localhost:5000/cart/${item._id}`, {
+        //                         method: "DELETE",
+        //                     })
+        //                         .then((res) => res.json())
+        //                         .then(() => {
 
-                                    Swal.fire({
-                                        icon: "success",
-                                        title: "Payment Successful",
-                                        text: "You have successfully enrolled.",
-                                        background: "#0f172a",
-                                        color: "#fff",
-                                        confirmButtonColor: "#06b6d4",
-                                    }).then(() => refetch());
-                                });
-                        }
-                    });
-            });
+        //                             Swal.fire({
+        //                                 icon: "success",
+        //                                 title: "Payment Successful",
+        //                                 text: "You have successfully enrolled.",
+        //                                 background: "#0f172a",
+        //                                 color: "#fff",
+        //                                 confirmButtonColor: "#06b6d4",
+        //                             }).then(() => refetch());
+        //                         });
+        //                 }
+        //             });
+        //     });
     };
 
     return (
@@ -218,15 +219,17 @@ const MySelectedClass = () => {
                                                         Delete
                                                     </button>
 
-                                                    <button
-                                                        onClick={() =>
-                                                            handlePay(item)
-                                                        }
-                                                        className="btn btn-sm border-0 bg-gradient-to-r from-cyan-300 to-amber-400 text-slate-900 hover:scale-105"
-                                                    >
-                                                        <FaCreditCard />
-                                                        Pay
-                                                    </button>
+                                                    <Link to={`/dashboard/payment/${item?._id}`}>
+                                                        <button
+                                                            onClick={() =>
+                                                                handlePay(item)
+                                                            }
+                                                            className="btn btn-sm border-0 bg-gradient-to-r from-cyan-300 to-amber-400 text-slate-900 hover:scale-105"
+                                                        >
+                                                            <FaCreditCard />
+                                                            Pay
+                                                        </button>
+                                                    </Link>
 
                                                 </div>
 

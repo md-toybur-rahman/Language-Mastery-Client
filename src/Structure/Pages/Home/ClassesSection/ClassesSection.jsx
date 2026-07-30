@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
 import ClassesCard from "./ClassesCard";
-import { FaGraduationCap } from "react-icons/fa";
+import { FaArrowRight, FaGraduationCap } from "react-icons/fa";
+import CardLoader from "../../../Shared/CardLoader/CardLoader";
+import useAxios from "../../../../hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
+import { NavLink } from "react-router-dom";
 
 const ClassesSection = () => {
     const [loadedClasses, setLoadedClasses] = useState([]);
-    const [classes, setClasses] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetch("http://localhost:5000/classes")
-            .then((res) => res.json())
-            .then((data) => {
-                const sorted = data.sort(
-                    (a, b) => b.total_student - a.total_student
-                );
+    const [axiosSecure] = useAxios();
+    const { data: classes = [], isLoading } = useQuery({
+        queryKey: ["classes"],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/classes')
+            return res.data;
+        }
+    })
 
-                setLoadedClasses(sorted);
-                setClasses(sorted.slice(0, 6));
-            });
-    }, []);
+    if (isLoading) {
+        return <div className="min-h-[500px] flex items-center justify-center"><CardLoader /></div>
+    }
 
     return (
         <section className="relative mt-28 overflow-hidden">
@@ -67,7 +71,7 @@ const ClassesSection = () => {
 
                 <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
 
-                    {classes.map((singleClass) => (
+                    {classes?.slice(0, 5).map((singleClass) => (
 
                         <ClassesCard
                             key={singleClass._id}
@@ -75,6 +79,15 @@ const ClassesSection = () => {
                         />
 
                     ))}
+
+                    <NavLink to="/classes" className="flex items-center justify-center">
+                        <button
+                            className={`inline-flex items-center gap-3 rounded-full px-7 py-3 text-sm font-bold uppercase tracking-[0.2em] transition duration-300 bg-gradient-to-r from-cyan-300 to-amber-400 text-slate-950 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/30`}
+                        >
+                            See All Classes
+                            <FaArrowRight />
+                        </button>
+                    </NavLink>
 
                 </div>
 

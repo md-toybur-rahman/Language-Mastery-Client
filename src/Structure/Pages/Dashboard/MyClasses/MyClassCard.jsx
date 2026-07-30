@@ -16,6 +16,8 @@ const MyClassCard = ({ singleClass }) => {
         total_seats,
         price,
         photo,
+        status,
+        feedback,
     } = singleClass;
 
     const enrolled = Number(total_student);
@@ -23,7 +25,38 @@ const MyClassCard = ({ singleClass }) => {
     const available = Number(available_seats);
 
     const progress =
-        total > 0 ? Math.min((enrolled / total) * 100, 100) : 0;
+        ((total_student || 0) /
+            (total_seats || 1)) *
+        100;
+    const income =
+        Number(price) *
+        Number(total_student);
+
+    const statusColor =
+
+        status === "approved"
+
+            ? "bg-emerald-500/20 text-emerald-400"
+
+            : status === "denied"
+
+                ? "bg-red-500/20 text-red-400"
+
+                : "bg-amber-500/20 text-amber-400";
+
+    const badge =
+
+        status === "approved"
+
+            ? "bg-emerald-500/20 text-emerald-400"
+
+            : status === "denied"
+
+                ? "bg-red-500/20 text-red-400"
+
+                : "bg-amber-500/20 text-amber-400";
+
+
 
     return (
         <div className="group overflow-hidden rounded-3xl border border-slate-700 bg-slate-900 shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-400/50 hover:shadow-cyan-500/20">
@@ -134,21 +167,41 @@ const MyClassCard = ({ singleClass }) => {
 
                 {/* Status */}
 
-                <div className="mt-6 flex justify-between items-center">
+                <div className="mt-6">
 
-                    <span
-                        className={`rounded-full px-4 py-2 text-sm font-semibold cursor-default ${
-                            available === 0
-                                ? "bg-red-500/20 text-red-400"
-                                : "bg-emerald-500/20 text-emerald-400"
-                        }`}
-                    >
-                        {available === 0 ? "Class Full" : "Open"}
-                    </span>
+                    <div className="flex items-center justify-between">
 
-                    {/* <button className="rounded-xl bg-gradient-to-r from-cyan-300 to-amber-400 px-5 py-2 font-semibold text-slate-900 transition hover:scale-105 hover:text-slate-900">
-                        View Details
-                    </button> */}
+                        <span
+                            className={`rounded-full px-4 py-2 text-sm font-semibold ${statusColor}`}
+                        >
+
+                            {status?.toUpperCase()}
+
+                        </span>
+
+                        {/* <span className="font-bold text-emerald-400">
+
+                            Income: ৳ {income}
+
+                        </span> */}
+
+                    </div>
+
+                    <div className="mt-5 rounded-xl border border-slate-700 bg-slate-800 p-4">
+
+                        <p className="text-sm font-semibold text-cyan-400">
+
+                            Admin Feedback
+
+                        </p>
+
+                        <p className="mt-2 text-sm text-slate-300">
+
+                            {feedback || "No feedback from admin."}
+
+                        </p>
+
+                    </div>
 
                 </div>
 

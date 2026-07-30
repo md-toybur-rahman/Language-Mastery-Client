@@ -55,7 +55,7 @@ const Login = () => {
     const handleGoogle = async () => {
         try {
             const result = await googleLogin();
-
+            console.log(result)
             // Save new user to MongoDB if first login
             if (result._tokenResponse.isNewUser) {
                 const { displayName, email } = result.user;

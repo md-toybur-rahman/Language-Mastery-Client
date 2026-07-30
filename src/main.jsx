@@ -12,17 +12,24 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { HelmetProvider } from 'react-helmet-async';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import ScrollToTop from './Structure/Pages/ScrollToTop/ScrollToTop.jsx';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HelmetProvider>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </AuthProvider>
+      <Elements stripe={stripePromise}>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </AuthProvider>
+      </Elements>
     </HelmetProvider>
   </React.StrictMode>,
 )

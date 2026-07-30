@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import {
     FaHome,
     FaUsers,
@@ -13,11 +13,13 @@ import useCart from "../../hooks/useCart";
 import useAdmin from "../../hooks/useAdmin";
 import useInstructor from "../../hooks/useInstructor";
 import Navbar from "../Shared/Navbar/Navbar";
+import ScrollToTop from "../Pages/ScrollToTop/ScrollToTop";
 
 const Dashboard = () => {
     const [cart] = useCart();
     const [isAdmin] = useAdmin();
     const [isInstructor] = useInstructor();
+    const location = useLocation();
 
     const menuClass = ({ isActive }) =>
         `flex items-center gap-4 rounded-2xl px-5 py-4 font-semibold transition-all duration-300 ${isActive
@@ -34,7 +36,7 @@ const Dashboard = () => {
             <div className="absolute right-20 bottom-20 h-72 w-72 rounded-full bg-teal-500/10 blur-[140px]"></div>
 
             <div className="relative max-w-[1600px] mx-auto">
-
+                <ScrollToTop />
                 <Navbar />
 
                 <div className="drawer lg:drawer-open">
@@ -77,7 +79,7 @@ const Dashboard = () => {
 
                             </div>
 
-                            <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-xl min-h-[650px]">
+                            <div className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-xl min-h-[650px] overflow-hidden">
 
                                 <Outlet />
 
@@ -119,22 +121,32 @@ const Dashboard = () => {
                                             end
                                             to="/dashboard"
                                             className={menuClass}
+                                        // className={`flex items-center gap-4 rounded-2xl px-5 py-4 font-semibold transition-all duration-300 ${({ isActive }) => isActive? " bg-gradient-to-r from-cyan-300 to-amber-400 text-slate-950 shadow-lg shadow-cyan-500/20"
+                                        //     : " text-slate-300 hover:bg-slate-800 hover:text-cyan-300 hover:translate-x-2"
+                                        //     }`}
                                         >
                                             <FaBookOpen />
                                             My Selected Classes
 
-                                            <span className="ml-auto rounded-full bg-cyan-400 px-3 py-1 text-sm font-bold text-slate-950">
+                                            <span className={`ml-auto rounded-full bg-cyan-400 px-3 py-1 text-sm font-bold text-slate-950 ${cart?.length < 1 ? 'hidden' : ''}`}>
                                                 {cart.length}
                                             </span>
 
                                         </NavLink>
 
                                         <NavLink
-                                            to="/dashboard/payment"
+                                            to="/dashboard/enrolled_classes"
                                             className={menuClass}
                                         >
                                             <FaUserGraduate />
                                             My Enrolled Classes
+                                        </NavLink>
+                                        <NavLink
+                                            to="/dashboard/payment_history"
+                                            className={menuClass}
+                                        >
+                                            <FaUserGraduate />
+                                            Payment History
                                         </NavLink>
 
                                     </>

@@ -6,3 +6,16 @@
 /* #F36371 */
 /* #E5B14C */
 /* #1BABAF */
+
+
+* {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* Hide scrollbar for Firefox */
+    scrollbar-width: none;
+    
+    /* Hide scrollbar for IE and Edge */
+    -ms-overflow-style: none;
+}

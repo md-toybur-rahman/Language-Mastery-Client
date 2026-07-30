@@ -12,6 +12,8 @@ import {
 
 import { AuthContext } from "../../../../Providers/AuthProvider";
 import useCart from "../../../../hooks/useCart";
+import useAxios from "../../../../hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
 
 const ClassesCard = ({ singleClass }) => {
 
@@ -20,6 +22,17 @@ const ClassesCard = ({ singleClass }) => {
     const navigate = useNavigate();
 
     const [cart, refetch] = useCart();
+    const [axiosSecure] = useAxios();
+    const { data: currentUser = [], isLoading } = useQuery({
+        queryKey: ['user', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            console.log(user.email)
+            const res = await axiosSecure.get(`/users/${user?.email}`);
+            console.log(currentUser)
+            return res.data;
+        },
+    });
 
     const {
         language_name,
@@ -243,10 +256,10 @@ const ClassesCard = ({ singleClass }) => {
                         </div>
 
                         <button
-                            disabled={available_seats === 0}
+                            disabled={available_seats === 0 || currentUser?.type === 'admin' || currentUser?.type === 'instructor'}
                             onClick={() => handleAdmit(singleClass)}
                             className={`inline-flex items-center gap-3 rounded-full px-7 py-3 text-sm font-bold uppercase tracking-[0.2em] transition duration-300
-                            ${available_seats === 0
+                            ${available_seats === 0 || currentUser?.type === 'admin' || currentUser?.type === 'instructor'
                                     ? "cursor-not-allowed bg-slate-700 text-slate-400"
                                     : "bg-gradient-to-r from-cyan-300 to-amber-400 text-slate-950 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/30"
                                 }`}

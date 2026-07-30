@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import {
     SlLocationPin,
@@ -23,18 +23,20 @@ import useCart from "../../../hooks/useCart";
 import Swal from "sweetalert2";
 import useAxios from "../../../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
+import FullScreenLoader from "../FullScreenLoader/FullScreenLoader";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
-    const [userData, setUserData] = useState(null);
     const [axiosSecure] = useAxios();
-
-    const { data: currentUser, isLoading } = useQuery({
+    const navigate = useNavigate();
+    const { data: currentUser = [], isLoading } = useQuery({
         queryKey: ['user', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users/${user.email}`);
-            await setUserData(res.data);
+            console.log(user.email)
+            const res = await axiosSecure.get(`/users/${user?.email}`);
+            console.log(currentUser)
+            return res.data;
         },
     });
 
@@ -44,6 +46,8 @@ const Navbar = () => {
     const handleLogOut = () => {
         logOut().then(() => {
             localStorage.removeItem("access_token");
+            navigate('/')
+
         }).catch(error => {
             console.log(error);
 
@@ -52,6 +56,7 @@ const Navbar = () => {
                 title: "Login Failed",
                 text: error.message
             })
+            navigate('/')
         });
     };
 
@@ -81,7 +86,7 @@ const Navbar = () => {
                     timer: 1500,
                     showConfirmButton: false,
                 });
-
+                navigate('/dashboard');
                 window.location.reload();
             } else {
                 Swal.fire({
@@ -150,7 +155,7 @@ const Navbar = () => {
             </NavLink>
 
             {/* Role Dropdown */}
-            <div className="dropdown dropdown-end">
+            <div className={`dropdown dropdown-end ${user ? '' : 'hidden'}`}>
                 <label
                     tabIndex={0}
                     className={`${navLink} flex cursor-pointer items-center gap-2`}
@@ -159,7 +164,7 @@ const Navbar = () => {
                     <FaChevronDown className="text-xs" />
                     <div className="flex items-center justify-center gap-2">
                         <span className="h-3 w-3 rounded-full bg-green-500"></span>
-                        <p> {userData?.type.slice(0,1).toUpperCase()}{ userData?.type.slice(1)}</p>
+                        <p> {currentUser?.type?.slice(0, 1).toUpperCase()}{currentUser?.type?.slice(1)}</p>
                     </div>
                 </label>
 
@@ -200,6 +205,10 @@ const Navbar = () => {
             </div>
         </>
     );
+
+    if (user && isLoading) {
+        return <FullScreenLoader />
+    }
 
     return (
         <header className="sticky top-0 z-50 backdrop-blur-xl">

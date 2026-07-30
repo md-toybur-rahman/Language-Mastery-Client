@@ -1,28 +1,24 @@
 import { useEffect, useState } from "react";
-import { FaChalkboardTeacher } from "react-icons/fa";
+import { FaArrowRight, FaChalkboardTeacher } from "react-icons/fa";
 import InstructorCard from "./InstructorCard";
+import CardLoader from "../../../Shared/CardLoader/CardLoader";
+import useAxios from "../../../../hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
+import { NavLink } from "react-router-dom";
 
 const InstructorSection = () => {
+    const [axiosSecure] = useAxios();
+    const { data: instructors = [], isLoading } = useQuery({
+        queryKey: ["instructors"],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/instructors');
+            return res.data;
+        }
+    })
 
-    const [loadedInstructors, setLoadedInstructors] = useState([]);
-    const [instructors, setInstructors] = useState([]);
-
-    useEffect(() => {
-
-        fetch("http://localhost:5000/instructors")
-            .then((res) => res.json())
-            .then((data) => {
-
-                const sorted = data.sort(
-                    (a, b) => b.number_of_students - a.number_of_students
-                );
-
-                setLoadedInstructors(sorted);
-                setInstructors(sorted.slice(0, 6));
-
-            });
-
-    }, []);
+    if (isLoading) {
+        return <div className="min-h-[500px] flex items-center justify-center"><CardLoader /></div>
+    }
 
     return (
 
@@ -73,7 +69,7 @@ const InstructorSection = () => {
 
                 <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
 
-                    {instructors.map((instructor) => (
+                    {instructors?.slice(0, 5).map((instructor) => (
 
                         <InstructorCard
                             key={instructor._id}
@@ -81,6 +77,14 @@ const InstructorSection = () => {
                         />
 
                     ))}
+                    <NavLink to="/instructors" className="flex items-center justify-center">
+                        <button
+                            className={`inline-flex items-center gap-3 rounded-full px-7 py-3 text-sm font-bold uppercase tracking-[0.2em] transition duration-300 bg-gradient-to-r from-cyan-300 to-amber-400 text-slate-950 hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/30`}
+                        >
+                            See All Instructors
+                            <FaArrowRight />
+                        </button>
+                    </NavLink>
 
                 </div>
 

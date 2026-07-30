@@ -29,77 +29,172 @@ const AdminClassesCard = ({ singleClass, refetch }) => {
         email
     } = singleClass;
 
-    const handleApprove = () => {
+    const handleApprove = async () => {
+        const res = await fetch(
+            `http://localhost:5000/approve_class/${singleClass._id}`,
+            {
+                method: "PATCH",
+            }
+        );
+        const data = await res.json();
+        if (data.modifiedCount) {
+            Swal.fire({
+                icon: "success",
+                title: "Class Approved",
+            }).then(() => refetch())
+        }
+    };
 
-        if (!user) {
-            return navigate("/login");
+    const handleDeny = async () => {
+
+        const { value: feedback } = await Swal.fire({
+
+            title: "Reason of Deny",
+
+            input: "textarea",
+
+            inputPlaceholder:
+                "Why is this class denied?",
+
+            showCancelButton: true,
+
+        });
+
+        if (!feedback) return;
+
+        const res = await fetch(
+
+            `http://localhost:5000/deny_class/${singleClass._id}`,
+
+            {
+
+                method: "PATCH",
+
+                headers: {
+
+                    "content-type": "application/json",
+
+                },
+
+                body: JSON.stringify({
+
+                    feedback,
+
+                }),
+
+            }
+
+        );
+
+        const data = await res.json();
+
+        if (data.modifiedCount) {
+
+            Swal.fire({
+
+                icon: "success",
+
+                title: "Class Denied",
+
+            }).then(refetch())
+
         }
 
-        const approveItem = {
-            language_name,
-            country_name,
-            instructor_name,
-            total_student,
-            available_seats,
-            total_seats,
-            photo,
-            price,
-            email
-        };
+    };
 
-        fetch("http://localhost:5000/classes", {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(approveItem),
-        })
-            .then((res) => res.json())
-            .then(() => {
+    const handleFeedback = async () => {
 
-                fetch(`http://localhost:5000/instructors_requirements/${_id}`, {
-                    method: "DELETE",
-                })
-                    .then((res) => res.json())
-                    .then(() => {
+        const { value: feedback } = await Swal.fire({
 
-                        refetch();
+            title: "Write Feedback",
 
-                        Swal.fire({
-                            icon: "success",
-                            title: "Class Approved Successfully",
-                            background: "#0f172a",
-                            color: "#fff",
-                            timer: 1700,
-                            showConfirmButton: false,
-                        });
+            input: "textarea",
 
-                    });
+            inputPlaceholder:
+                "Write feedback for instructor...",
+
+            showCancelButton: true,
+
+        });
+
+        if (!feedback) return;
+
+        const res = await fetch(
+
+            `http://localhost:5000/class_feedback/${singleClass._id}`,
+
+            {
+
+                method: "PATCH",
+
+                headers: {
+
+                    "content-type": "application/json",
+
+                },
+
+                body: JSON.stringify({
+
+                    feedback,
+
+                }),
+
+            }
+
+        );
+
+        const data = await res.json();
+
+        if (data.modifiedCount) {
+
+            Swal.fire({
+
+                icon: "success",
+
+                title: "Feedback Saved",
 
             });
+
+        }
+
     };
+
 
     return (
 
         <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-400/40">
 
-            <div className="relative">
+            <figure className="relative">
+
+                <img
+                    className="w-[100px] h-[80px] pt-5 absolute top-0 left-3"
+                    src={photo}
+                    alt=""
+                />
 
                 <img
                     src="https://i.ibb.co/ZV9VFyP/kenny-eliason-1-a-A2-Fadydc-unsplash-2.jpg"
-                    className="h-56 w-full object-cover"
                     alt=""
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                {/* Status Badge */}
 
-                <img
-                    src={photo}
-                    alt=""
-                    className="absolute left-6 top-6 h-20 w-20 rounded-2xl border-2 border-slate-700 bg-white object-cover p-1 shadow-xl"
-                />
+                <div className="absolute right-4 bottom-4">
 
-            </div>
+                    <span
+                        className={`rounded-full px-4 py-2 text-sm font-bold ${singleClass.status === "approved"
+                            ? "bg-emerald-500 text-white"
+                            : singleClass.status === "denied"
+                                ? "bg-red-500 text-white"
+                                : "bg-amber-400 text-slate-900"
+                            }`}
+                    >
+                        {singleClass.status?.toUpperCase()}
+                    </span>
+
+                </div>
+
+            </figure>
 
             <div className="space-y-5 p-6">
 
@@ -167,6 +262,26 @@ const AdminClassesCard = ({ singleClass, refetch }) => {
                     Approve Class
 
                 </button>
+                <div className="flex items-center justify-between">
+                    <button
+
+                        onClick={handleFeedback}
+
+                        className="btn btn-info bg-gradient-to-br from-cyan-600 to-cyan-100"
+
+                    >
+
+                        Feedback
+
+                    </button>
+                    <button
+                        className="btn btn-error bg-gradient-to-br from-red-500 to-red-300"
+                        onClick={handleDeny}
+                    >
+                        Deny
+                    </button>
+                </div>
+
 
             </div>
 

@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from '../Shared/Navbar/Navbar';
 import Footer from '../Shared/Footer/Footer';
 import './BackgroundColor.css'
+import ScrollToTop from "../Pages/ScrollToTop/ScrollToTop";
 
 const Main = () => {
     return (
@@ -38,6 +39,7 @@ const Main = () => {
                 </span>
             </div>
             <div className="mx-auto max-w-[1600px] px-4 md:px-8 xl:px-16">
+                <ScrollToTop />
                 <Navbar />
                 <Outlet />
                 <Footer />

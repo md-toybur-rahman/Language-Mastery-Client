@@ -20,7 +20,6 @@ const ManageClasses = () => {
             return res.data;
         },
     });
-    console.log(classes)
 
     return (
         <section className="space-y-8">
