@@ -253,8 +253,9 @@ const AdminClassesCard = ({ singleClass, refetch }) => {
                 </div>
 
                 <button
+                    disabled={singleClass?.status !== "pending"}
                     onClick={handleApprove}
-                    className="flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-cyan-300 to-amber-400 py-3 font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02]"
+                    className={`btn flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-cyan-300 to-amber-400 py-3 font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02]`}
                 >
 
                     <FaCheckCircle />
@@ -275,7 +276,8 @@ const AdminClassesCard = ({ singleClass, refetch }) => {
 
                     </button>
                     <button
-                        className="btn btn-error bg-gradient-to-br from-red-500 to-red-300"
+                        disabled={singleClass?.status !== "pending"}
+                        className={`btn btn-error bg-gradient-to-br from-red-500 to-red-300`}
                         onClick={handleDeny}
                     >
                         Deny
