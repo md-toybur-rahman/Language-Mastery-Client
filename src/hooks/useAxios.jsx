@@ -1,37 +1,81 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import axios from "axios";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
+
+// Create only ONE axios instance
+const axiosSecure = axios.create({
+    baseURL: "https://language-mastery.onrender.com",
+});
 
 const useAxios = () => {
     const { logOut } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const axiosSecure = axios.create({
-        baseURL: 'https://language-mastery.onrender.com',
-    });
-
     useEffect(() => {
-        axiosSecure.interceptors.request.use((config) => {
-            const token = localStorage.getItem('access_token');
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-            return config;
-        });
 
-        axiosSecure.interceptors.response.use(
-            (response) => response,
-            async (error) => {
-                if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-                    // await logOut();
-                    // navigate('/login');
+        // Request Interceptor
+        const requestInterceptor =
+            axiosSecure.interceptors.request.use(
+                (config) => {
+
+                    const token =
+                        localStorage.getItem("access_token");
+
+                    if (token) {
+                        config.headers.Authorization =
+                            `Bearer ${token}`;
+                    }
+
+                    return config;
+                },
+                (error) => Promise.reject(error)
+            );
+
+        // Response Interceptor
+        const responseInterceptor =
+            axiosSecure.interceptors.response.use(
+                (response) => response,
+
+                async (error) => {
+
+                    if (
+                        error.response &&
+                        (
+                            error.response.status === 401 ||
+                            error.response.status === 403
+                        )
+                    ) {
+
+                        localStorage.removeItem("access_token");
+
+                        try {
+                            await logOut();
+                        } catch (err) {
+                            console.error(err);
+                        }
+
+                        navigate("/login");
+                    }
+
+                    return Promise.reject(error);
                 }
-                return Promise.reject(error);
-            }
-        );
-    }, [logOut, navigate, axiosSecure]);
+            );
+
+        // Cleanup
+        return () => {
+
+            axiosSecure.interceptors.request.eject(
+                requestInterceptor
+            );
+
+            axiosSecure.interceptors.response.eject(
+                responseInterceptor
+            );
+
+        };
+
+    }, [logOut, navigate]);
 
     return [axiosSecure];
 };
